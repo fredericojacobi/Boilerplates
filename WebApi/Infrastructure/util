@@ -1,0 +1,2 @@
+dotnet ef migrations remove -c AppDbContext -s Api -p Infrastructure
+dotnet ef migrations add  -c AppDbContext -s Api -p Infrastructure

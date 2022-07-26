@@ -1,0 +1,17 @@
+/WebApi/Api/obj/
+/WebApi/Api/bin/
+/WebApi/Contracts/obj/
+/WebApi/Contracts/bin/
+/WebApi/Entities/bin/
+/WebApi/Entities/obj/
+/WebApi/Extensions/bin/
+/WebApi/Extensions/obj/
+/WebApi/Generics/bin/
+/WebApi/Generics/obj/
+/WebApi/Infrastructure/bin/
+/WebApi/Infrastructure/obj/
+/WebApi/Repositories/bin/
+/WebApi/Repositories/obj/
+/WebApi/Services/bin/
+/WebApi/Services/obj/
+/.idea/
