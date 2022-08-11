@@ -14,4 +14,6 @@
 /WebApi/Repositories/obj/
 /WebApi/Services/bin/
 /WebApi/Services/obj/
+/WebApi/Api/appsettings.Development.json
+/WebApi/Api/appsettings.json
 /.idea/

@@ -31,7 +31,7 @@ public static class ServiceExtensions
     private static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
         var connection = configuration.GetSection("ConnectionString:Database").Value;
-        services.AddDbContext<AppDbContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
     }
 
     private static void ConfigureWrappers(this IServiceCollection services)
