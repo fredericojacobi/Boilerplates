@@ -14,7 +14,7 @@ public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserA
 
     public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await ReadAllAsync();
 
-    public async Task<UserApplication> ReadUserAsync(int id) => await _userManager.FindByIdAsync(id.ToString());
+    public async Task<UserApplication> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
 
     public async Task<UserApplication> ReadUserByUserNameAsync(string username) =>
         await _userManager.FindByNameAsync(username);
@@ -37,9 +37,9 @@ public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserA
         return identityResult.Succeeded;
     }
 
-    public async Task<bool> DeleteUserAsync(int id)
+    public async Task<bool> DeleteUserAsync(Guid id)
     {
-        var user = await ReadUserAsync(id);
+        var user = await ReadUserByIdAsync(id);
         return await DeleteUserAsync(user);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public class AppDbContext : IdentityDbContext<UserApplication, IdentityRole<int>, int>
+public class AppDbContext : IdentityDbContext<UserApplication, IdentityRole<Guid>, Guid>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

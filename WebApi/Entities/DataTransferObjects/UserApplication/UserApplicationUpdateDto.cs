@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿namespace Entities.DataTransferObjects.UserApplication;
 
-namespace Entities.Models;
-
-public class UserApplication : IdentityUser<Guid>
+public class UserApplicationUpdateDto
 {
     public Guid Id { get; set; }
     

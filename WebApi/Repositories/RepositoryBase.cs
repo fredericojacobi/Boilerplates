@@ -33,7 +33,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return entity;
     }
 
-    public async Task<bool> UpdateAsync(int id, T entity)
+    public async Task<bool> UpdateAsync(Guid id, T entity)
     {
         var currentEntity = await _context.Set<T>().FindAsync(id);
         _context.Entry(currentEntity).CurrentValues.SetValues(entity);
