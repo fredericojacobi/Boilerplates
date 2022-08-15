@@ -40,7 +40,7 @@ public static class ServiceConfiguration
 
     private static void ConfigureIdentity(this IServiceCollection services)
     {
-        services.AddIdentity<UserApplication, IdentityRole<int>>(options =>
+        services.AddIdentity<UserApplication, IdentityRole<Guid>>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireLowercase = false;

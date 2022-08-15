@@ -5,7 +5,7 @@ namespace Generics.Models;
 public abstract class BaseModel
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     
     public DateTime CreatedAt { get; set; }
     

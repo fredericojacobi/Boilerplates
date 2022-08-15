@@ -9,7 +9,7 @@ using Generics.Models;
 
 namespace Services;
 
-public class UserApplicationService : IUserAplicationService
+public class UserApplicationService : IUserApplicationService
 {
     private readonly IRepositoryWrapper _repository;
     private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ public class UserApplicationService : IUserAplicationService
         {
             var result = await _repository.UserApplication.ReadAllUsersAsync();
             if (result.IsEmpty()) 
-                return new ResponseMessage<UserApplicationDto>(HttpStatusCode.NoContent, "Not found");
+                return new ResponseMessage<UserApplicationDto>(HttpStatusCode.NotFound, "Not found");
 
             var dto = _mapper.Map<IEnumerable<UserApplicationDto>>(result);
             return new ResponseMessage<UserApplicationDto>(HttpStatusCode.OK, dto);

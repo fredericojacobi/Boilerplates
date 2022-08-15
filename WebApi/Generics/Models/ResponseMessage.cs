@@ -4,13 +4,13 @@ namespace Generics.Models;
 
 public class ResponseMessage<T>
 {
-    private HttpStatusCode Status { get; }
+    public HttpStatusCode Status { get; }
 
-    private bool Error => (int)Status >= 400;
+    public bool Error => (int)Status >= 400;
 
-    private string? Message { get; }
+    public string? Message { get; }
 
-    private IEnumerable<T>? Records { get; }
+    public IEnumerable<T>? Records { get; }
 
     public int Count => Records?.Count() ?? 0;
     
@@ -30,6 +30,7 @@ public class ResponseMessage<T>
     {
         Status = status;
         Message = message;
+        Records = new List<T>();
     }
     
     public ResponseMessage(HttpStatusCode status, string? message, IEnumerable<T>? records)

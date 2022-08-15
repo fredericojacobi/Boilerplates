@@ -3,7 +3,7 @@ using Generics.Models;
 
 namespace Contracts.Services;
 
-public interface IUserAplicationService
+public interface IUserApplicationService
 {
     Task<ResponseMessage<UserApplicationDto>> GetAllAsync();
     Task<ResponseMessage<UserApplicationDto>> GetAsync(Guid id);

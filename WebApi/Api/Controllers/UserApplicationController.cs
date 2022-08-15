@@ -9,26 +9,26 @@ namespace Api.Controllers;
 public class UserApplicationController : ControllerBase
 {
     private readonly ILogger<UserApplicationController> _logger;
-    private readonly IUserAplicationService _service;
+    private readonly IServiceWrapper _service;
 
-    public UserApplicationController(ILogger<UserApplicationController> logger, IUserAplicationService service)
+    public UserApplicationController(ILogger<UserApplicationController> logger, IServiceWrapper service)
     {
         _logger = logger;
         _service = service;
     }
 
     [HttpGet]
-    public async Task<ActionResult> Get() => Ok(await _service.GetAllAsync());
+    public async Task<ActionResult> Get() => Ok(await _service.UserApplication.GetAllAsync());
     
     [HttpGet("{id}")]
-    public async Task<ActionResult> Get([FromRoute] Guid id) => Ok(await _service.GetAsync(id));
+    public async Task<ActionResult> Get([FromRoute] Guid id) => Ok(await _service.UserApplication.GetAsync(id));
 
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto) => Ok(await _service.PostAsync(dto));
+    public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto) => Ok(await _service.UserApplication.PostAsync(dto));
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UserApplicationUpdateDto dto) => Ok(await _service.PutAsync(id, dto));
+    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UserApplicationUpdateDto dto) => Ok(await _service.UserApplication.PutAsync(id, dto));
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete([FromRoute] Guid id) => Ok(await _service.DeleteAsync(id));
+    public async Task<ActionResult> Delete([FromRoute] Guid id) => Ok(await _service.UserApplication.DeleteAsync(id));
 }

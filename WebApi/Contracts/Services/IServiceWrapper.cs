@@ -2,5 +2,5 @@
 
 public interface IServiceWrapper
 {
-    IUserAplicationService UserApplication { get; }
+    IUserApplicationService UserApplication { get; }
 }
