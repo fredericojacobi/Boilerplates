@@ -56,24 +56,25 @@ public class UserApplicationService : IUserApplicationService
         }
     }
 
-    public async Task<ResponseMessage<UserApplicationRegisterDto>> PostAsync(UserApplicationRegisterDto userDTO)
+    public async Task<ResponseMessage<UserApplicationDto>> PostAsync(UserApplicationRegisterDto userDTO)
     {
         try
         {
             var user = _mapper.Map<UserApplication>(userDTO);
-            var result = await _repository.UserApplication.CreateAsync(user);
-            if (result.Id.IsDefault())
-                return new ResponseMessage<UserApplicationRegisterDto>(
+            var result = await _repository.UserApplication.CreateUserAsync(user, userDTO.Password);
+            if (!result)
+                return new ResponseMessage<UserApplicationDto>(
                     HttpStatusCode.InternalServerError,
                     "Woops! Something went wrong");
 
-            var dto = _mapper.Map<UserApplicationRegisterDto>(result);
-            return new ResponseMessage<UserApplicationRegisterDto>(HttpStatusCode.OK, dto);
+            var createdUser = await _repository.UserApplication.ReadUserByUserNameAsync(user.UserName);
+            var dto = _mapper.Map<UserApplicationDto>(createdUser);
+            return new ResponseMessage<UserApplicationDto>(HttpStatusCode.OK, dto);
         }
         catch (Exception ex)
         {
             var msg = $"{DateTime.Now} : {ex.Message} \n Source: {ex.Source} \n InnerException: {ex.InnerException}";
-            return new ResponseMessage<UserApplicationRegisterDto>(HttpStatusCode.InternalServerError, msg);
+            return new ResponseMessage<UserApplicationDto>(HttpStatusCode.InternalServerError, msg);
         }
     }
 

@@ -21,12 +21,14 @@ public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserA
 
     public async Task<bool> CreateUserAsync(UserApplication user, string password)
     {
+        user.CreatedAt = DateTime.Now;
         var identityResult = await _userManager.CreateAsync(user, password);
         return identityResult.Succeeded;
     }
 
     public async Task<bool> UpdateUserAsync(UserApplication user)
     {
+        user.ModifiedAt = DateTime.Now;
         var result = await _userManager.UpdateAsync(user);
         return result.Succeeded;
     }
