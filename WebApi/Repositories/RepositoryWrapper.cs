@@ -9,6 +9,7 @@ public class RepositoryWrapper : IRepositoryWrapper
 {
     private readonly AppDbContext _context;
     private readonly UserManager<UserApplication> _userManager;
+    
     private IUserApplicationRepository _userApplication;
 
     public RepositoryWrapper(AppDbContext context, UserManager<UserApplication> userManager)

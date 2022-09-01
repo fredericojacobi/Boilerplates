@@ -1,11 +1,12 @@
 ﻿using Contracts.Services;
 using Entities.DataTransferObjects.UserApplication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/user")]
 public class UserApplicationController : ControllerBase
 {
     private readonly ILogger<UserApplicationController> _logger;
@@ -17,6 +18,7 @@ public class UserApplicationController : ControllerBase
         _service = service;
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
     public async Task<ActionResult> Get()
     {
@@ -24,6 +26,7 @@ public class UserApplicationController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet("{id}")]
     public async Task<ActionResult> Get([FromRoute] Guid id)
     {
@@ -31,6 +34,14 @@ public class UserApplicationController : ControllerBase
         return Ok(result);
     }
 
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public async Task<ActionResult> Login(UserApplicationLoginDto dto)
+    {
+        return Ok(await _service.UserApplication.Authenticate(dto));
+    }
+    
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto)
     {
@@ -38,6 +49,7 @@ public class UserApplicationController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut("{id}")]
     public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UserApplicationUpdateDto dto)
     {
@@ -45,6 +57,7 @@ public class UserApplicationController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete([FromRoute] Guid id)
     {

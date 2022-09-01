@@ -8,7 +8,7 @@ public class ServiceWrapper : IServiceWrapper
 {
     private readonly IRepositoryWrapper _repository;
     private readonly IMapper _mapper;
-
+    
     private IUserApplicationService _userApplication;
 
     public ServiceWrapper(IRepositoryWrapper repository, IMapper mapper)

@@ -12,6 +12,9 @@ public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserA
     public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) : base(context) =>
         _userManager = userManager;
 
+    public async Task<bool> ValidatePassword(UserApplication user, string password) =>
+        await _userManager.CheckPasswordAsync(user, password);
+
     public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await ReadAllAsync();
 
     public async Task<UserApplication> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
@@ -19,27 +22,24 @@ public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserA
     public async Task<UserApplication> ReadUserByUserNameAsync(string username) =>
         await _userManager.FindByNameAsync(username);
 
-    public async Task<bool> CreateUserAsync(UserApplication user, string password)
+    public async Task<IdentityResult> CreateUserAsync(UserApplication user, string password)
     {
         user.CreatedAt = DateTime.Now;
-        var identityResult = await _userManager.CreateAsync(user, password);
-        return identityResult.Succeeded;
+        return await _userManager.CreateAsync(user, password);
     }
 
-    public async Task<bool> UpdateUserAsync(UserApplication user)
+    public async Task<IdentityResult> UpdateUserAsync(UserApplication user)
     {
         user.ModifiedAt = DateTime.Now;
-        var result = await _userManager.UpdateAsync(user);
-        return result.Succeeded;
+        return await _userManager.UpdateAsync(user);
     }
 
-    public async Task<bool> DeleteUserAsync(UserApplication user)
+    public async Task<IdentityResult> DeleteUserAsync(UserApplication user)
     {
-        var identityResult = await _userManager.DeleteAsync(user);
-        return identityResult.Succeeded;
+        return await _userManager.DeleteAsync(user);
     }
 
-    public async Task<bool> DeleteUserAsync(Guid id)
+    public async Task<IdentityResult> DeleteUserAsync(Guid id)
     {
         var user = await ReadUserByIdAsync(id);
         return await DeleteUserAsync(user);

@@ -5,6 +5,7 @@ namespace Contracts.Services;
 
 public interface IUserApplicationService
 {
+    Task<ResponseMessage<UserApplicationTokenDto>> Authenticate(UserApplicationLoginDto userDTO);
     Task<ResponseMessage<UserApplicationDto>> GetAllAsync();
     Task<ResponseMessage<UserApplicationDto>> GetAsync(Guid id);
     Task<ResponseMessage<UserApplicationDto>> PostAsync(UserApplicationRegisterDto userDTO);

@@ -1,11 +1,15 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
+using Constants;
 using Contracts.Repositories;
 using Contracts.Services;
 using Entities.MapProfiles;
 using Entities.Models;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
@@ -16,14 +20,16 @@ public static class ServiceConfiguration
 {
     public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.ConfigureAuthentication();
         services.ConfigureSqlContext(configuration);
         services.ConfigureWrappers();
-        services.AddControllers();
         services.ConfigureIdentity();
         services.ConfigureSwagger();
         services.ConfigureCors();
-        services.AddEndpointsApiExplorer();
         services.ConfigureMapper();
+        // services.ConfigureCookies();
     }
 
     private static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
@@ -47,9 +53,48 @@ public static class ServiceConfiguration
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(10);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.";
+                options.User.RequireUniqueEmail = false;
             })
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+    }
+
+    private static void ConfigureAuthentication(this IServiceCollection services)
+    {
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AppSettings.JwtSecret)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
+    }
+    
+    private static void ConfigureCookies(this IServiceCollection services)
+    {
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.HttpOnly = true;
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+            options.LoginPath = "/user/login";
+            options.AccessDeniedPath = "";
+            options.SlidingExpiration = true;
+        });
     }
 
     private static void ConfigureSwagger(this IServiceCollection services)
@@ -73,8 +118,13 @@ public static class ServiceConfiguration
     {
         services.AddCors(options =>
         {
-            options.AddPolicy(name: "corsPolicy",
-                builder => { builder.WithOrigins("*"); });
+            options.AddPolicy(name: "allow",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader(); 
+                    builder.AllowAnyMethod();
+                });
         });
     }
     
