@@ -3,4 +3,5 @@
 public interface IRepositoryWrapper
 {
     IUserApplicationRepository UserApplication { get; }
+    ILoggerRepository Logger { get; }
 }

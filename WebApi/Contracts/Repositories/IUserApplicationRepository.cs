@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Contracts.Repositories;
 
-public interface IUserApplicationRepository : IRepositoryBase<UserApplication>
+public interface IUserApplicationRepository
 {
     Task<bool> ValidatePassword(UserApplication user, string password);
     Task<IEnumerable<UserApplication>> ReadAllUsersAsync();

@@ -2,20 +2,21 @@
 using Entities.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
-public class UserApplicationRepository : RepositoryBase<UserApplication>, IUserApplicationRepository
+public class UserApplicationRepository : IUserApplicationRepository
 {
     private readonly UserManager<UserApplication> _userManager;
 
-    public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) : base(context) =>
+    public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) =>
         _userManager = userManager;
 
     public async Task<bool> ValidatePassword(UserApplication user, string password) =>
         await _userManager.CheckPasswordAsync(user, password);
 
-    public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await ReadAllAsync();
+    public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await _userManager.Users.ToListAsync();
 
     public async Task<UserApplication> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
 

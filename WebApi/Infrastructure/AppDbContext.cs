@@ -11,7 +11,15 @@ public class AppDbContext : IdentityDbContext<UserApplication, IdentityRole<Guid
     {
     }
     
-    protected override void OnModelCreating(ModelBuilder modelBuilder) => base.OnModelCreating(modelBuilder);
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // avoid delete cascade error on new migrations
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        
+        base.OnModelCreating(modelBuilder);
+    }
 
     public DbSet<UserApplication> UserApplications { get; set; }
+    public DbSet<Log> Logs { get; set; }
 }

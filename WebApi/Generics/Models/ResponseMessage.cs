@@ -63,6 +63,8 @@ public class ResponseMessage<T>
 
     public ResponseMessage<T> Unauthorized(string? message = "") => new(HttpStatusCode.Unauthorized, message);
 
+    public ResponseMessage<T> MethodNotAllowed() => new(HttpStatusCode.MethodNotAllowed, "Sorry, this method isn't allowed.");
+
     public ResponseMessage<T> InternalServerError(Exception exception) =>
         new(HttpStatusCode.InternalServerError, exception.FormatLogMessage());
 

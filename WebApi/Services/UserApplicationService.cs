@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.CompilerServices;
 using AutoMapper;
 using Constants;
 using Contracts.Repositories;
@@ -17,7 +19,7 @@ public class UserApplicationService : IUserApplicationService
 
     private readonly ResponseMessage<UserApplicationDto> _responseMessage = new();
     private readonly ResponseMessage<bool> _bResponseMessage = new();
-    
+
     public UserApplicationService(IRepositoryWrapper repository, IMapper mapper)
     {
         _repository = repository;
@@ -27,7 +29,7 @@ public class UserApplicationService : IUserApplicationService
     public async Task<ResponseMessage<UserApplicationTokenDto>> Authenticate(UserApplicationLoginDto userDTO)
     {
         var responseMessage = new ResponseMessage<UserApplicationTokenDto>();
-        
+
         try
         {
             var user = await _repository.UserApplication.ReadUserByUserNameAsync(userDTO.UserName);
@@ -39,7 +41,7 @@ public class UserApplicationService : IUserApplicationService
                     Token = tokenHandler.GenerateToken(AppSettings.JwtSecret, user.Id),
                     UserName = user.UserName
                 };
-                
+
                 return responseMessage.Ok(tokenDto);
             }
 

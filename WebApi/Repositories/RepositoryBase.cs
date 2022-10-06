@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
 using Contracts.Repositories;
+using Generics.Models;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories;
 
-public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseModel
 {
     private AppDbContext _context { get; }
 
@@ -27,6 +28,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     public async Task<T> CreateAsync(T entity)
     {
+        entity.CreatedAt = DateTime.Now;
         await _context.Set<T>().AddAsync(entity);
         await SaveAsync();
         await ReloadAsync(entity);
@@ -35,6 +37,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 
     public async Task<bool> UpdateAsync(Guid id, T entity)
     {
+        entity.ModifiedAt = DateTime.Now;
         var currentEntity = await _context.Set<T>().FindAsync(id);
         _context.Entry(currentEntity).CurrentValues.SetValues(entity);
         return await SaveAsync();

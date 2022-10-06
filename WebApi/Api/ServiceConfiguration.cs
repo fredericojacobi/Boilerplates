@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using Constants;
 using Contracts.Repositories;
@@ -83,7 +84,7 @@ public static class ServiceConfiguration
             };
         });
     }
-    
+
     private static void ConfigureCookies(this IServiceCollection services)
     {
         services.ConfigureApplicationCookie(options =>
@@ -118,22 +119,20 @@ public static class ServiceConfiguration
     {
         services.AddCors(options =>
         {
-            options.AddPolicy(name: "allow",
+            options.AddPolicy("all",
                 builder =>
                 {
-                    builder.AllowAnyOrigin();
-                    builder.AllowAnyHeader(); 
+                    builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
                 });
         });
+        // Regex.IsMatch(origin, @"^https?:\/\/[a-zA-Z0-9_-]+\.dominio\.com");
     }
-    
+
     private static void ConfigureMapper(this IServiceCollection services)
     {
-        var config = new MapperConfiguration(config =>
-        {
-            config.AddProfile(new UserApplicationProfile());
-        });
+        var config = new MapperConfiguration(config => { config.AddProfile(new UserApplicationProfile()); });
         var mapper = config.CreateMapper();
         services.AddSingleton(mapper);
     }

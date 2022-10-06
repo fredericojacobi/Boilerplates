@@ -10,7 +10,8 @@ public class ServiceWrapper : IServiceWrapper
     private readonly IMapper _mapper;
     
     private IUserApplicationService _userApplication;
-
+    private ILoggerService _logger;
+    
     public ServiceWrapper(IRepositoryWrapper repository, IMapper mapper)
     {
         _repository = repository;
@@ -18,4 +19,5 @@ public class ServiceWrapper : IServiceWrapper
     }
 
     public IUserApplicationService UserApplication => _userApplication ??= new UserApplicationService(_repository, _mapper);
+    public ILoggerService Logger => _logger ??= new LoggerService(_repository);
 }

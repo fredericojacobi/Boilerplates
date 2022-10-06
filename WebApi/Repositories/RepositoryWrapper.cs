@@ -11,7 +11,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     private readonly UserManager<UserApplication> _userManager;
     
     private IUserApplicationRepository _userApplication;
-
+    private ILoggerRepository _logger;
+    
     public RepositoryWrapper(AppDbContext context, UserManager<UserApplication> userManager)
     {
         _context = context;
@@ -19,4 +20,5 @@ public class RepositoryWrapper : IRepositoryWrapper
     }
 
     public IUserApplicationRepository UserApplication => _userApplication ??= new UserApplicationRepository(_context, _userManager);
+    public ILoggerRepository Logger => _logger ??= new LoggerRepository(_context);
 }
