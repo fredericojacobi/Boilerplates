@@ -1,9 +1,13 @@
 import React from 'react';
+import Container from '@mui/material/Container';
+import styles from './Footer.module.scss';
 
 export default function Footer(): JSX.Element {
 	return (
-		<footer style={{position: 'fixed', bottom: '0', backgroundColor: '#1976d2', width: '100%', height: '64px'}}>
-			<span>Footer</span>
+		<footer className={styles.footer}>
+			<Container maxWidth="xl">
+				Footer
+			</Container>
 		</footer>
 	);
 }

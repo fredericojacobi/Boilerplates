@@ -1,27 +1,12 @@
 import React from 'react';
-import {useEffect, useState} from 'react';
-import {useUserService} from '../../hooks/useUserService';
-import IUser from '../../interfaces/models/IUser';
+import styles from './Home.module.scss';
+import Container from '@mui/material/Container';
 
-interface IHomeProps {
-	id?: number;
-}
-
-export default function Home(props: IHomeProps): JSX.Element {
-	const userService = useUserService();
-	const [user, setUser] = useState<IUser>();
-
-	useEffect(() => {
-		userService.getUserInfo()
-			.then((response) => {
-				setUser(response.records[0]);
-			});
-	}, []);
+export default function Home(): JSX.Element {
 
 	return (
-		<>
-			<h4>Username: {user?.id}</h4>
+		<Container maxWidth="xl" className={styles.content}>
 			<span>Home</span>
-		</>
+		</Container>
 	);
 }

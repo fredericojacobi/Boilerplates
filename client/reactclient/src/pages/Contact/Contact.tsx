@@ -1,13 +1,12 @@
 import React from 'react';
+import styles from './Contact.module.scss';
+import Container from '@mui/material/Container';
 
-interface IContactProps {
-	id?:number
-}
+export default function Contact(): JSX.Element {
 
-export default function Contact(props:IContactProps) {
 	return (
-		<>
+		<Container maxWidth="xl" className={styles.content}>
 			<span>Contact</span>
-		</>
+		</Container>
 	);
 }

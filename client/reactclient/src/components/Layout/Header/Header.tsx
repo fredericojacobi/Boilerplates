@@ -99,9 +99,10 @@ export default function Header(): JSX.Element {
 							>
 								{pages.map((page) => (
 									<MenuItem key={page.to} onClick={handleCloseNavMenu}>
-										<Typography textAlign="center">
+										<Link
+											to={`${page.to}`}>
 											{page.label}
-										</Typography>
+										</Link>
 									</MenuItem>
 								))}
 							</Menu>
@@ -127,13 +128,21 @@ export default function Header(): JSX.Element {
 						</Typography>
 						<Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
 							{pages.map((page) => (
-								<Button
-									key={page.to}
-									onClick={handleCloseNavMenu}
-									sx={{my: 2, color: 'white', display: 'block'}}
-								>
-									{page.label}
-								</Button>
+								<>
+									<Button
+										key={page.to}
+										onClick={handleCloseNavMenu}
+										sx={{my: 2, color: 'white', display: 'block'}}
+									>
+										<Link
+											to={page.to}
+											color="white"
+										>
+											{page.label}
+										</Link>
+									</Button>
+
+								</>
 							))}
 						</Box>
 

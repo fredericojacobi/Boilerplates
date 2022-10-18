@@ -1,7 +1,7 @@
-import api from '../config/Api';
-import IBoilerplate from '../interfaces/models/IBoilerplate';
+import api from '../../config/Api';
+import IBoilerplate from '../../interfaces/models/IBoilerplate';
 import {AxiosError, AxiosResponse} from 'axios';
-import IResponseMessage from '../interfaces/models/IResponseMessage';
+import IResponseMessage from '../../interfaces/models/IResponseMessage';
 
 function getBoilerplates(id?: number): IBoilerplate[] {
 	api.Get<IBoilerplate>(`boilerplate/${id}`)

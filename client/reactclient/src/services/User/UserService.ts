@@ -1,7 +1,25 @@
-import api from '../config/Api';
-import IUser from '../interfaces/models/IUser';
+import api from '../../config/Api';
+import IUser from '../../interfaces/models/IUser';
 import {AxiosError, AxiosResponse} from 'axios';
-import IResponseMessage from '../interfaces/models/IResponseMessage';
+import IResponseMessage from '../../interfaces/models/IResponseMessage';
+
+const errorObj = {
+	records: [],
+	count: 0,
+	error: true,
+	message: 'Error',
+	status: 500
+};
+
+const login = async (username: string, password: string): Promise<IResponseMessage<IUser>> => {
+	return await api.Post<IUser>('user/login', {userName: username, password: password})
+		.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
+			return response.data;
+		})
+		.catch((err: AxiosError) => {
+			return errorObj;
+		});
+};
 
 const getUser = async (id: string): Promise<IResponseMessage<IUser>> => {
 	return await api.Get<IUser>(`user/${id}`)
@@ -9,13 +27,7 @@ const getUser = async (id: string): Promise<IResponseMessage<IUser>> => {
 			return response.data;
 		})
 		.catch((err: AxiosError) => {
-			return {
-				records: [],
-				count: 0,
-				error: true,
-				message: 'Error',
-				status: 500
-			};
+			return errorObj;
 		});
 };
 
@@ -25,13 +37,7 @@ const getUserInfo = async (id?: string): Promise<IResponseMessage<IUser>> => {
 			return response.data;
 		})
 		.catch((err: AxiosError) => {
-			return {
-				records: [],
-				count: 0,
-				error: true,
-				message: 'Error',
-				status: 500
-			};
+			return errorObj;
 		});
 };
 
@@ -41,13 +47,7 @@ const postUser = async (data: IUser): Promise<IResponseMessage<IUser>> => {
 			return response.data;
 		})
 		.catch((err: AxiosError) => {
-			return {
-				records: [],
-				count: 0,
-				error: true,
-				message: 'Error',
-				status: 500
-			};
+			return errorObj;
 		});
 };
 
@@ -57,13 +57,7 @@ const putUser = async (id: string, data: IUser): Promise<IResponseMessage<IUser>
 			return response.data;
 		})
 		.catch((err: AxiosError) => {
-			return {
-				records: [],
-				count: 0,
-				error: true,
-				message: 'Error',
-				status: 500
-			};
+			return errorObj;
 		});
 };
 
@@ -73,17 +67,12 @@ const deleteUser = async (id?: string): Promise<IResponseMessage<boolean>> => {
 			return response.data;
 		})
 		.catch((err: AxiosError) => {
-			return {
-				records: [],
-				count: 0,
-				error: true,
-				message: 'Error',
-				status: 500
-			};
+			return errorObj;
 		});
 };
 
 export default {
+	login,
 	getUser,
 	getUserInfo,
 	postUser,
