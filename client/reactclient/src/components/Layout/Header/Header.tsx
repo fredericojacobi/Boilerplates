@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '../../Link/Link';
+import styles from './Header.module.scss';
 
 const pages = [{
 	label: 'Home',
@@ -46,7 +47,7 @@ export default function Header(): JSX.Element {
 
 	return (
 		<header>
-			<AppBar position="static">
+			<AppBar position="static" className={styles.content}>
 				<Container maxWidth="xl">
 					<Toolbar disableGutters>
 						<AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
