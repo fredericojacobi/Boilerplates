@@ -5,7 +5,10 @@ import Container from '@mui/material/Container';
 export default function Home(): JSX.Element {
 
 	return (
-		<Container maxWidth="xl" className={styles.content}>
+		<Container
+			maxWidth="xl"
+			className={styles.content}
+		>
 			<span>Home</span>
 		</Container>
 	);

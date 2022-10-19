@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './Dashboard.module.scss';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 export default function Dashboard(): JSX.Element {
 	return (
-		<Container className={styles.content}>
+		<Box className={styles.content}>
 			Dashboard page
-		</Container>
+		</Box>
 	);
 }
