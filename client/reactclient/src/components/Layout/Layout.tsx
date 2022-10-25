@@ -16,7 +16,9 @@ export default function Layout(props: ILayoutProps): JSX.Element {
 			<Header/>
 			<Box sx={{display: 'flex', height: '76vh'}}>
 				<DashboardMenu visible={props.dashboard ?? false}/>
-				<Box maxWidth="xl" className={styles.mainContent}>
+				<Box
+					className={styles.mainContent}
+				>
 					{props.page}
 				</Box>
 			</Box>

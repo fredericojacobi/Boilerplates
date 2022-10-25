@@ -1,4 +1,4 @@
 export enum ProvidedServices {
-	BoilerplateService,
-	UserService
+	UserService= 1,
+	AuthService= 2
 }

@@ -1,5 +1,5 @@
 import {Contextualizer} from '../contexts/Contextualizer';
 import {ProvidedServices} from '../enums/ProvidedServices';
-import IUserContextService from '../interfaces/services/IUserContextService';
+import IUserService from '../interfaces/services/IUserService';
 
-export const useUserService = () => Contextualizer.use<IUserContextService>(ProvidedServices.UserService);
+export const useUserService = () => Contextualizer.use<IUserService>(ProvidedServices.UserService);

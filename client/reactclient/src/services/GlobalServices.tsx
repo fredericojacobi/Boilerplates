@@ -1,13 +1,13 @@
 import React from 'react';
-import BoilerplateContextService from './Boilerplate/BoilerplateContextService';
 import UserContextService from './User/UserContextService';
+import AuthContextService from './Auth/AuthContextService';
 
 export default function GlobalServices({children}: any): JSX.Element {
 	return (
-		<UserContextService>
-			<BoilerplateContextService>
+		<AuthContextService>
+			<UserContextService>
 				{children}
-			</BoilerplateContextService>
-		</UserContextService>
+			</UserContextService>
+		</AuthContextService>
 	);
 }
