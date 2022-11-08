@@ -1,9 +1,11 @@
 import api from '../../config/Api';
 import IUser from '../../interfaces/models/IUser';
-import {AxiosResponse} from 'axios';
+import axios, {
+	AxiosResponse
+} from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IAuthService from '../../interfaces/services/IAuthService';
-import {log} from '../../functions/util';
+import {setErrorResponseObject} from '../../functions/Request';
 
 export const AuthService: IAuthService = {
 
@@ -16,7 +18,7 @@ export const AuthService: IAuthService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 
@@ -26,7 +28,7 @@ export const AuthService: IAuthService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 

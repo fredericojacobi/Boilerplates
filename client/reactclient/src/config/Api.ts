@@ -6,7 +6,7 @@ import IResponseMessage from '../interfaces/models/IResponseMessage';
 import IUser from '../interfaces/models/IUser';
 import {log} from '../functions/util';
 
-const setHeaders = ():string => {
+const getToken = ():string => {
 	const userStorage = localStorage.getItem('user') ?? '';
 	if (userStorage !== '') {
 		const user: IUser = JSON.parse(userStorage);
@@ -19,7 +19,7 @@ const api: AxiosInstance = Axios.create({
 	baseURL: 'https://localhost:7048/api/',
 	headers: {
 		'Content-Type': 'application/json',
-		'Authorization': `Bearer ${setHeaders()}`,
+		'Authorization': `Bearer ${getToken()}`,
 	},
 });
 

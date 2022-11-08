@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from '../../Link/Link';
 import styles from './Header.module.scss';
+import {Routes} from '../../../enums/Routes';
 
 const settings = ['Settings 1', 'Settings 2', 'Settings 3'];
 
@@ -57,7 +58,7 @@ export default function Header(): JSX.Element {
 							>
 								{settings.map((setting) => (
 									<MenuItem key={setting} onClick={handleCloseUserMenu}>
-										<Link to="/dsa">
+										<Link route={Routes.Home}>
 											{setting}
 										</Link>
 									</MenuItem>

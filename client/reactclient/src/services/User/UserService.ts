@@ -3,6 +3,7 @@ import IUser from '../../interfaces/models/IUser';
 import {AxiosResponse} from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IUserService from '../../interfaces/services/IUserService';
+import {setErrorResponseObject} from '../../functions/Request';
 
 export const UserService: IUserService = {
 
@@ -12,7 +13,7 @@ export const UserService: IUserService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 
@@ -22,7 +23,7 @@ export const UserService: IUserService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 
@@ -32,7 +33,7 @@ export const UserService: IUserService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 
@@ -42,7 +43,7 @@ export const UserService: IUserService = {
 				return response.data;
 			})
 			.catch((err: IResponseMessage<IUser>) => {
-				return err;
+				return setErrorResponseObject(err);
 			});
 	},
 

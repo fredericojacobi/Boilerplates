@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+# React.js front-end boilerplate
+___
+<img src="http://img.shields.io/static/v1?label=TYPESCRIPT&message=LANGUAGE&color=blue&style=for-the-badge&logo=TYPESCRIPT"/>
+<img src="https://img.shields.io/static/v1?label=react&message=framework&color=blue&style=for-the-badge&logo=REACT"/>
+<img src="http://img.shields.io/static/v1?label=STATUS&message=UNDER%20DEVELOPMENT&color=red&style=for-the-badge"/>
+<img src="http://img.shields.io/static/v1?label=License&message=NOT SPECIFIED&color=lightgray&style=for-the-badge"/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📄 Introduction
+___
+This project is focused to provide an initial boilerplate for client-side React.js applications, avoiding spending too much time at the beginning.
 
-## Available Scripts
+## 🚀 Features
+___
 
-In the project directory, you can run:
+- #### ✅ Providing services with Context API
 
-### `npm start`
+## 🎯 Roadmap
+___
+- [x] Providing services with Context API
+- [ ] Permissions
+  - [ ] JWT Authentication
+- [ ] Dashboard
+- [ ] Documentation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 📖 References
+___
+- <a href="https://dev.to/dansolhan/simple-dependency-injection-functionality-for-react-518j">Dependency Injection/Services pattern for React (inspired by Angular)</a>
+- <a href="https://www.bezkoder.com/react-hooks-jwt-auth/">React Hooks: JWT Authentication (without Redux) example</a>
+- <a href="https://javascript.plainenglish.io/12-important-javascript-functions-every-web-developer-should-know-e488c4bbf521">12 Important JavaScript Functions Every Web Developer Should Know</a>
+- <a href="https://javascript.plainenglish.io/12-common-javascript-functions-you-need-to-know-3d3a3ab712fc">12 Common JavaScript Functions You Need to Know</a>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 💻 Developers
+___
+<table>
+    <tbody>
+        <tr>
+            <td style="text-align: center">
+                <img src="https://avatars.githubusercontent.com/u/41392148?s=400&u=6eb0e4f70c323c17e6faa92d7540383600984f85&v=4" width=115><br><a href="https://github.com/fredericojacobi"><sub>Frederico Jacobi</sub></a>
+            </td>
+        </tr>
+    </tbody>
+</table>

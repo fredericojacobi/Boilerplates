@@ -1,11 +1,10 @@
 import React, {
-	ChangeEvent,
 	useEffect,
-	useRef,
 	useState
 } from 'react';
 import {
 	Button,
+	CircularProgress,
 	FormControl,
 	Stack,
 	TextField
@@ -14,98 +13,161 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '../../components/Link/Link';
 import IUser from '../../interfaces/models/IUser';
+import * as Yup from 'yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import Loading from '../../components/Loading/Loading';
+import {log} from '../../functions/util';
+import IResponseMessage from '../../interfaces/models/IResponseMessage';
+import {useAuthService} from '../../hooks/useAuthService';
+import {Routes} from '../../enums/Routes';
 
 export default function SignUp(): JSX.Element {
-	const userRef = useRef<IUser>({});
-	const errorRef = useRef();
 
-	const [username, setUsername] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	const authService = useAuthService();
 	const [errorMessage, setErrorMessage] = useState<string>('');
-	const [success, setSuccess] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [loadingPercentage, setLoadingPercentage] = useState<number>(0);
 
 	useEffect(() => {
-		// userRef.current.focus();
-	}, []);
+		if (loading) {
+			setTimeout(() => {
+				setLoadingPercentage(loadingPercentage + 1);
+				log(loadingPercentage);
+			}, 1800);
+		}
+	}, [loadingPercentage]);
 
-	useEffect(() => {
-		setErrorMessage('');
-
-	}, [username, password]);
-
-	const handleChangeUsername = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		setUsername(e.target.value);
+	const onSubmit = async (data: IUser) => {
+		setLoading(true);
+		await authService.signIn(data?.userName ?? '', data?.password ?? '')
+			.then((response: IResponseMessage<IUser>) => {
+				if (response.error) {
+					setErrorMessage(response.message);
+				} else {
+					setErrorMessage('');
+				}
+			});
+		setLoading(false);
 	};
 
-	const handleChangePassword = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		setPassword(e.target.value);
-	};
+	const validationSchema = Yup.object().shape({
+		email: Yup.string()
+			.email()
+			.required('Email is required'),
+		username: Yup.string()
+			.required('Username is required')
+			.min(6, 'Username must be at least 6 characters'),
+		password: Yup.string()
+			.required('Password is required')
+			.min(6, 'Password must be at least 6 characters')
+	});
 
-	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		e.preventDefault();
-		console.log(username, password);
-		setUsername('');
-		setPassword('');
-		setSuccess(true);
-	};
+	const passwordErrorMessage = (): string => errors?.password?.message?.toString() ?? '';
+	const usernameErrorMessage = (): string => errors?.username?.message?.toString() ?? '';
+	const emailErrorMessage = (): string => errors?.email?.message?.toString() ?? '';
+
+	const {
+		register,
+		control,
+		handleSubmit,
+		formState: {errors}
+	} = useForm({
+		resolver: yupResolver(validationSchema)
+	});
 
 	return (
-		<Box sx={{position: 'relative', backgroundColor: 'white', height: '70vh', padding: '10px'}}>
-			<Stack
-				direction="column"
-				justifyContent="center"
-				alignItems="center"
-				height="64vh"
-				spacing={5}
+		<Loading
+			backdrop={true}
+			component={<CircularProgress color="info"/>}
+			value={loadingPercentage}
+			visible={loading}
+			color="white"
+		>
+			<Box sx={{
+				position: 'relative',
+				backgroundColor: 'white',
+				height: '70vh',
+				padding: '10px'
+			}}
 			>
-				<Stack
-					direction="column"
-					padding="10px"
-				>
-					<Typography>Sign Up</Typography>
-				</Stack>
 				<Stack
 					direction="column"
 					justifyContent="center"
 					alignItems="center"
+					height="64vh"
+					spacing={5}
 				>
-					<Box ref={errorRef} sx={{display: errorMessage ? 'flex' : 'flex', padding: '10px'}}>
-						<Typography>
-							{/*{errorMessage}*/}
-							errorMsg
-						</Typography>
-					</Box>
-					<Box>
-						<FormControl
-							component="form"
-							variant="filled"
-							sx={{width: '400px'}}
+					<Stack
+						direction="column"
+						padding="10px"
+					>
+						<Typography>Sign Up</Typography>
+					</Stack>
+					<Stack
+						direction="column"
+						justifyContent="center"
+						alignItems="center"
+					>
+						<Box
+							sx={{
+								display: errorMessage ? 'flex' : 'flex',
+								padding: '10px'
+							}}
 						>
-							<TextField
-								id="username"
-								label="Username"
-								onChange={handleChangeUsername}
-								value={username}
-								helperText="Invalid field."
-								sx={{marginBottom: '5px'}}
-							/>
-							<TextField
-								error
-								id="password"
-								label="Password"
-								type="password"
-								onChange={handleChangePassword}
-								value={password}
-								helperText="Invalid field."
-							/>
-							<Button onClick={handleSubmit} sx={{marginTop: '10px'}}>Sign Up</Button>
-							<Typography fontSize={14}>
-								Already registered? <Link to="/user/signin">Click here</Link> to sign in.
+							<Typography>
+								{/*{errorMessage}*/}
+								errorMsg
 							</Typography>
-						</FormControl>
-					</Box>
+						</Box>
+						<Box>
+							<FormControl
+								component="form"
+								variant="filled"
+								sx={{width: '400px'}}
+							>
+								<TextField
+									required
+									id="email"
+									label="Email"
+									type="email"
+									sx={{marginBottom: '5px'}}
+									{...register('email')}
+									error={!!errors.email}
+									helperText={emailErrorMessage()}
+								/>
+								<TextField
+									required
+									id="username"
+									label="Username"
+									sx={{marginBottom: '5px'}}
+									{...register('username')}
+									error={!!errors.username}
+									helperText={usernameErrorMessage()}
+								/>
+								<TextField
+									required
+									id="password"
+									label="Password"
+									type="password"
+									{...register('password')}
+									error={!!errors.password}
+									helperText={passwordErrorMessage()}
+								/>
+								<Button
+									onClick={handleSubmit(onSubmit)}
+									sx={{marginTop: '10px'}}
+								>
+									Sign Up
+								</Button>
+								<Typography fontSize={14}>
+									Already registered? <Link route={Routes.SignIn}>Click here</Link> to sign in.
+								</Typography>
+							</FormControl>
+						</Box>
+					</Stack>
 				</Stack>
-			</Stack>
-		</Box>
+			</Box>
+		</Loading>
 	);
 }
