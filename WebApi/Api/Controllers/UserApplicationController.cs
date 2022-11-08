@@ -35,10 +35,11 @@ public class UserApplicationController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
-    public async Task<ActionResult> Login(UserApplicationLoginDto dto)
+    [HttpPost("signin")]
+    public async Task<ActionResult> Login([FromBody] UserApplicationLoginDto dto)
     {
-        return Ok(await _service.UserApplication.Authenticate(dto));
+        var result = await _service.UserApplication.Authenticate(dto);
+        return Ok(result);
     }
     
     [AllowAnonymous]

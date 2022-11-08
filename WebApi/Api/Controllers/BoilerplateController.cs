@@ -18,7 +18,7 @@ public class BoilerplateController : ControllerBase
         _service = service;
     }
 
-    // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
     public async Task<ActionResult> Get() => Ok(new ResponseMessage<bool>().MethodNotAllowed());
 

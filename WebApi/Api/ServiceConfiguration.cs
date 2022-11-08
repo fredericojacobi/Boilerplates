@@ -1,7 +1,5 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 using AutoMapper;
-using Constants;
 using Contracts.Repositories;
 using Contracts.Services;
 using Entities.MapProfiles;
@@ -14,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
+using Generics.Constants;
 
 namespace Api;
 
@@ -127,7 +126,7 @@ public static class ServiceConfiguration
                     builder.AllowAnyOrigin();
                 });
         });
-        // Regex.IsMatch(origin, @"^https?:\/\/[a-zA-Z0-9_-]+\.dominio\.com");
+        // Regex.IsMatch(origin, Url.CORS_REGEX_PATTERN);
     }
 
     private static void ConfigureMapper(this IServiceCollection services)

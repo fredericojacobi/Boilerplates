@@ -1,4 +1,4 @@
-﻿namespace Constants;
+﻿namespace Generics.Constants;
 
 public static class AppSettings
 {
