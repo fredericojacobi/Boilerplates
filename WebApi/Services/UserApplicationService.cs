@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
+﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
-using Constants;
 using Contracts.Repositories;
 using Contracts.Services;
 using Entities.DataTransferObjects.UserApplication;
 using Entities.Models;
 using Extensions;
+using Generics.Constants;
 using Generics.Models;
 
 namespace Services;

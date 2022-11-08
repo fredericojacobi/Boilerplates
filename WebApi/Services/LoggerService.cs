@@ -18,32 +18,18 @@ public class LoggerService : ILoggerService
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0)
     {
-        try
+        await _repository.Logger.Log(new Log
         {
-            await _repository.Logger.Log(new Log
-            {
-                LogType = LogType.Undefined,
-                Path = $"{sourceFilePath}:{sourceLineNumber}",
-                Method = memberName,
-                Message = message,
-                UserApplicationId = userId
-            });
-        }
-        catch(Exception ex)
-        {
-            throw;
-        }
+            LogType = LogType.Undefined,
+            Path = $"{sourceFilePath}:{sourceLineNumber}",
+            Method = memberName,
+            Message = message,
+            UserApplicationId = userId
+        });
     }
 
     public async Task<IEnumerable<Log>> GetAll()
     {
-        try
-        {
-            return await _repository.Logger.ReadAllAsync();
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        return await _repository.Logger.ReadAllAsync();
     }
 }
