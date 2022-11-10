@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Entities.Enums;
 using Entities.Models;
 
 namespace Contracts.Services;
@@ -6,6 +7,7 @@ namespace Contracts.Services;
 public interface ILoggerService
 {
     Task Log(string message,
+        LogType logType,
         Guid? userId = default,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",

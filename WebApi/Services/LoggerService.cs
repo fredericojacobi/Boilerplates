@@ -3,6 +3,8 @@ using Contracts.Repositories;
 using Contracts.Services;
 using Entities.Enums;
 using Entities.Models;
+using Generics.Constants;
+using Path = System.IO.Path;
 
 namespace Services;
 
@@ -13,19 +15,23 @@ public class LoggerService : ILoggerService
     public LoggerService(IRepositoryWrapper repository) => _repository = repository;
 
     public async Task Log(string message,
+        LogType logType,
         Guid? userId = default,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0)
     {
-        await _repository.Logger.Log(new Log
+        var log = new Log
         {
-            LogType = LogType.Undefined,
-            Path = $"{sourceFilePath}:{sourceLineNumber}",
-            Method = memberName,
             Message = message,
-            UserApplicationId = userId
-        });
+            LogType = logType,
+            UserApplicationId = userId,
+            FileDetailsPath = Generics.Constants.Path.LogsPath,
+            Method = memberName,
+            Path = $"{sourceFilePath}:{sourceLineNumber}"
+        };
+        var result = await _repository.Logger.Log(log);
+        log.CreateFileDetails(Generics.Constants.Path.LogsPath, $"{result.CreatedAt.ToString("ddMMyyyy-HHmmssfff")}");
     }
 
     public async Task<IEnumerable<Log>> GetAll()

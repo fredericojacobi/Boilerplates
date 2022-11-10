@@ -9,16 +9,11 @@ namespace Api.Controllers;
 [Route("api/user")]
 public class UserApplicationController : ControllerBase
 {
-    private readonly ILogger<UserApplicationController> _logger;
     private readonly IServiceWrapper _service;
 
-    public UserApplicationController(ILogger<UserApplicationController> logger, IServiceWrapper service)
-    {
-        _logger = logger;
-        _service = service;
-    }
+    public UserApplicationController(IServiceWrapper service) => _service = service;
 
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    // [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
     public async Task<ActionResult> Get()
     {
@@ -36,7 +31,7 @@ public class UserApplicationController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("signin")]
-    public async Task<ActionResult> Login([FromBody] UserApplicationLoginDto dto)
+    public async Task<ActionResult> SignIn([FromBody] UserApplicationLoginDto dto)
     {
         var result = await _service.UserApplication.Authenticate(dto);
         return Ok(result);

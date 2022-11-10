@@ -9,14 +9,9 @@ namespace Api.Controllers;
 [ApiController]
 public class BoilerplateController : ControllerBase
 {
-    private readonly ILogger<BoilerplateController> _logger;
     private readonly IServiceWrapper _service;
 
-    public BoilerplateController(ILogger<BoilerplateController> logger, IServiceWrapper service)
-    {
-        _logger = logger;
-        _service = service;
-    }
+    public BoilerplateController(IServiceWrapper service) => _service = service;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]

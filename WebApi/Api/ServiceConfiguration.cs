@@ -91,7 +91,7 @@ public static class ServiceConfiguration
             options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-            options.LoginPath = "/user/login";
+            options.LoginPath = "/user/signin";
             options.AccessDeniedPath = "";
             options.SlidingExpiration = true;
         });

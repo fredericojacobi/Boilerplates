@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{DD947D6B-2A40-4804-8FEA-7F70F1077B6F}"
+	ProjectSection(SolutionItems) = preProject
+		WebApi\README.md = WebApi\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "WebApi\Api\Api.csproj", "{7269A189-1911-47E6-ABD6-55F7FCB6AB5D}"
 EndProject

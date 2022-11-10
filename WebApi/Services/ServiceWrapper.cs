@@ -18,6 +18,6 @@ public class ServiceWrapper : IServiceWrapper
         _mapper = mapper;
     }
 
-    public IUserApplicationService UserApplication => _userApplication ??= new UserApplicationService(_repository, _mapper);
+    public IUserApplicationService UserApplication => _userApplication ??= new UserApplicationService(_logger ?? Logger, _repository, _mapper);
     public ILoggerService Logger => _logger ??= new LoggerService(_repository);
 }
