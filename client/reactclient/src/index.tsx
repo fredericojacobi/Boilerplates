@@ -9,11 +9,15 @@ const root = ReactDOM.createRoot(
 	document.getElementById('appRoot') as HTMLElement
 );
 root.render(
-	<React.StrictMode>
-		<GlobalServices>
-			<Router/>
-		</GlobalServices>
-	</React.StrictMode>
+	/*
+		According to ref, strictMode was removed to avoid useEffect runs twice in the first rendering
+		ref: https://github.com/facebook/react/issues/24502
+	 */
+	// <React.StrictMode>
+	<GlobalServices>
+		<Router/>
+	</GlobalServices>
+	// </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

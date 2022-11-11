@@ -21,15 +21,26 @@ import * as Yup from 'yup';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Routes} from '../../enums/Routes';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
+import {useNavigate} from 'react-router-dom';
+import {getPage,} from '../../routes/Pages';
 
-export default function SignIn() {
+export default function SignIn(): JSX.Element {
 
 	const authService = useAuthService();
+	const navigate = useNavigate();
+
 	const [errorMessage, setErrorMessage] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [loadingPercentage, setLoadingPercentage] = useState<number>(0);
 
 	useEffect(() => {
+		if (authService.isLoggedIn()) {
+			navigate(`${getPage(Routes.Dashboard).path}`);
+		}
+	}, []);
+
+	useUpdateEffect(() => {
 		if (loading) {
 			setTimeout(() => {
 				setLoadingPercentage(loadingPercentage + 1);
@@ -42,17 +53,16 @@ export default function SignIn() {
 		setLoading(true);
 		await authService.signIn(data?.userName ?? '', data?.password ?? '')
 			.then((response: IResponseMessage<IUser>) => {
+				log(response);
 				if (response.error) {
 					setErrorMessage(response.message);
-				} else {
-					setErrorMessage('');
 				}
 			});
 		setLoading(false);
 	};
 
 	const validationSchema = Yup.object().shape({
-		username: Yup.string()
+		userName: Yup.string()
 			.required('Username is required')
 			.min(6, 'Username must be at least 6 characters'),
 		password: Yup.string()
@@ -61,7 +71,7 @@ export default function SignIn() {
 	});
 
 	const passwordErrorMessage = (): string => errors?.password?.message?.toString() ?? '';
-	const usernameErrorMessage = (): string => errors?.username?.message?.toString() ?? '';
+	const userNameErrorMessage = (): string => errors?.userName?.message?.toString() ?? '';
 
 	const {
 		register,
@@ -123,12 +133,12 @@ export default function SignIn() {
 							>
 								<TextField
 									required
-									id="username"
+									id="userName"
 									label="Username"
 									sx={{marginBottom: '20px'}}
-									{...register('username')}
-									error={!!errors.username}
-									helperText={usernameErrorMessage()}
+									{...register('userName')}
+									error={!!errors.userName}
+									helperText={userNameErrorMessage()}
 								/>
 								<TextField
 									required
