@@ -1,11 +1,13 @@
 import api from '../../config/Api';
 import IUser from '../../interfaces/models/IUser';
-import axios, {
+import {
+	AxiosError,
 	AxiosResponse
 } from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IAuthService from '../../interfaces/services/IAuthService';
 import {setErrorResponseObject} from '../../functions/Request';
+import {log} from '../../functions/util';
 
 export const AuthService: IAuthService = {
 
@@ -39,6 +41,10 @@ export const AuthService: IAuthService = {
 
 	getCurrentUser: (): IUser => {
 		const userData = localStorage.getItem('user') ?? '';
-		return JSON.parse(userData);
+		return JSON.parse('[{}]');
+	},
+
+	isLoggedIn: (): boolean => {
+		return !!AuthService.getCurrentUser().token;
 	}
 };
