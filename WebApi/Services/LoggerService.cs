@@ -30,8 +30,8 @@ public class LoggerService : ILoggerService
             Method = memberName,
             Path = $"{sourceFilePath}:{sourceLineNumber}"
         };
-        var result = await _repository.Logger.Log(log);
-        log.CreateFileDetails(Generics.Constants.Path.LogsPath, $"{result.CreatedAt.ToString("ddMMyyyy-HHmmssfff")}");
+        await _repository.Logger.Log(log);
+        log.CreateFileDetails(Generics.Constants.Path.LogsPath);
     }
 
     public async Task<IEnumerable<Log>> GetAll() => await _repository.Logger.ReadAllAsync();
