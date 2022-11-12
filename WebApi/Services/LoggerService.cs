@@ -34,8 +34,5 @@ public class LoggerService : ILoggerService
         log.CreateFileDetails(Generics.Constants.Path.LogsPath, $"{result.CreatedAt.ToString("ddMMyyyy-HHmmssfff")}");
     }
 
-    public async Task<IEnumerable<Log>> GetAll()
-    {
-        return await _repository.Logger.ReadAllAsync();
-    }
+    public async Task<IEnumerable<Log>> GetAll() => await _repository.Logger.ReadAllAsync();
 }

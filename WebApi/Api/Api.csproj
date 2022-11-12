@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Constants\Constants.csproj" />
       <ProjectReference Include="..\Extensions\Extensions.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
       <ProjectReference Include="..\Repositories\Repositories.csproj" />
@@ -29,6 +28,10 @@
 
     <ItemGroup>
       <Compile Remove="Controllers\TokenController.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\temp\logs" />
     </ItemGroup>
 
 </Project>

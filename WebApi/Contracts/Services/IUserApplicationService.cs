@@ -1,14 +1,15 @@
 ﻿using Entities.DataTransferObjects.UserApplication;
 using Generics.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Contracts.Services;
 
 public interface IUserApplicationService
 {
-    Task<ResponseMessage<UserApplicationTokenDto>> Authenticate(UserApplicationLoginDto userDTO);
-    Task<ResponseMessage<UserApplicationDto>> GetAllAsync();
-    Task<ResponseMessage<UserApplicationDto>> GetAsync(Guid id);
-    Task<ResponseMessage<UserApplicationDto>> PostAsync(UserApplicationRegisterDto userDTO);
-    Task<ResponseMessage<bool>> PutAsync(Guid id, UserApplicationUpdateDto userDTO);
-    Task<ResponseMessage<bool>> DeleteAsync(Guid id);
+    Task<ActionResult> Authenticate(UserApplicationLoginDto userDTO);
+    Task<ActionResult> GetAllAsync();
+    Task<ActionResult> GetAsync(Guid id);
+    Task<ActionResult> PostAsync(UserApplicationRegisterDto userDTO);
+    Task<ActionResult> PutAsync(Guid id, UserApplicationUpdateDto userDTO);
+    Task<ActionResult> DeleteAsync(Guid id);
 }

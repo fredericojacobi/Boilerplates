@@ -15,49 +15,25 @@ public class UserApplicationController : ControllerBase
 
     // [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
-    public async Task<ActionResult> Get()
-    {
-        var result = await _service.UserApplication.GetAllAsync();
-        return Ok(result);
-    }
+    public async Task<ActionResult> Get() => await _service.UserApplication.GetAllAsync();
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet("{id}")]
-    public async Task<ActionResult> Get([FromRoute] Guid id)
-    {
-        var result = await _service.UserApplication.GetAsync(id);
-        return Ok(result);
-    }
+    public async Task<ActionResult> Get([FromRoute] Guid id) => await _service.UserApplication.GetAsync(id);
 
     [AllowAnonymous]
     [HttpPost("signin")]
-    public async Task<ActionResult> SignIn([FromBody] UserApplicationLoginDto dto)
-    {
-        var result = await _service.UserApplication.Authenticate(dto);
-        return Ok(result);
-    }
-    
+    public async Task<ActionResult> SignIn([FromBody] UserApplicationLoginDto dto) => await _service.UserApplication.Authenticate(dto);
+
     [AllowAnonymous]
-    [HttpPost]
-    public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto)
-    {
-        var result = await _service.UserApplication.PostAsync(dto);
-        return Ok(result);
-    }
+    [HttpPost("signup")]
+    public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto) => await _service.UserApplication.PostAsync(dto);
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut("{id}")]
-    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UserApplicationUpdateDto dto)
-    {
-        var result = await _service.UserApplication.PutAsync(id, dto);
-        return Ok(result);
-    }
+    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UserApplicationUpdateDto dto) => await _service.UserApplication.PutAsync(id, dto);
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete([FromRoute] Guid id)
-    {
-        var result = await _service.UserApplication.DeleteAsync(id);
-        return Ok(result);
-    }
+    public async Task<ActionResult> Delete([FromRoute] Guid id) => await _service.UserApplication.DeleteAsync(id);
 }

@@ -10,18 +10,15 @@ public class UserApplicationRepository : IUserApplicationRepository
 {
     private readonly UserManager<UserApplication> _userManager;
 
-    public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) =>
-        _userManager = userManager;
+    public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) => _userManager = userManager;
 
-    public async Task<bool> ValidatePassword(UserApplication user, string password) =>
-        await _userManager.CheckPasswordAsync(user, password);
+    public async Task<bool> ValidatePassword(UserApplication user, string password) => await _userManager.CheckPasswordAsync(user, password);
 
     public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await _userManager.Users.ToListAsync();
 
-    public async Task<UserApplication> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
+    public async Task<UserApplication?> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
 
-    public async Task<UserApplication> ReadUserByUserNameAsync(string username) =>
-        await _userManager.FindByNameAsync(username);
+    public async Task<UserApplication?> ReadUserByUserNameAsync(string username) => await _userManager.FindByNameAsync(username);
 
     public async Task<IdentityResult> CreateUserAsync(UserApplication user, string password)
     {
@@ -35,10 +32,7 @@ public class UserApplicationRepository : IUserApplicationRepository
         return await _userManager.UpdateAsync(user);
     }
 
-    public async Task<IdentityResult> DeleteUserAsync(UserApplication user)
-    {
-        return await _userManager.DeleteAsync(user);
-    }
+    public async Task<IdentityResult> DeleteUserAsync(UserApplication user) => await _userManager.DeleteAsync(user);
 
     public async Task<IdentityResult> DeleteUserAsync(Guid id)
     {

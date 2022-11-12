@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Generics.Models;
 
@@ -20,63 +21,68 @@ public class ResponseMessage<T>
     {
     }
 
-    public ResponseMessage(HttpStatusCode status, T record)
+    private ResponseMessage(HttpStatusCode status, T record)
     {
         Status = status;
         Records = new List<T> { record };
     }
 
-    public ResponseMessage(HttpStatusCode status, IEnumerable<T>? records)
+    private ResponseMessage(HttpStatusCode status, IEnumerable<T>? records)
     {
         Status = status;
         Records = records;
     }
 
-    public ResponseMessage(HttpStatusCode status, string? message)
+    private ResponseMessage(HttpStatusCode status, string? message)
     {
         Status = status;
         Message = message;
         Records = new List<T>();
     }
 
-    public ResponseMessage(HttpStatusCode status, string? message, IEnumerable<T>? records)
+    private ResponseMessage(HttpStatusCode status, string? message, IEnumerable<T>? records)
     {
         Status = status;
         Message = message;
         Records = records;
     }
 
-    public ResponseMessage(HttpStatusCode status, string? message, T record)
+    private ResponseMessage(HttpStatusCode status, string? message, T record)
     {
         Status = status;
         Message = message;
         Records = new List<T> { record };
     }
 
-    public ResponseMessage<T> Ok(T record) => new(HttpStatusCode.OK, record);
-    
-    public ResponseMessage<T> Ok(IEnumerable<T>? records) => new(HttpStatusCode.OK, records);
+    public ActionResult Ok(T record) => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, record));
 
-    public ResponseMessage<T> BadRequest(string? message = "") => new(HttpStatusCode.BadRequest, message);
+    public ActionResult Ok(IEnumerable<T>? records) =>
+        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, records));
 
-    public ResponseMessage<T> NotFound(string? message = "") =>  new(HttpStatusCode.NotFound, message);
+    public ActionResult BadRequest(string? message = "") =>
+        new BadRequestObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, message));
 
-    public ResponseMessage<T> Unauthorized(string? message = "") => new(HttpStatusCode.Unauthorized, message);
+    public ActionResult NotFound(string? message = "") =>
+        new NotFoundObjectResult(new ResponseMessage<T>(HttpStatusCode.NotFound, message));
 
-    public ResponseMessage<T> MethodNotAllowed() => new(HttpStatusCode.MethodNotAllowed, "Sorry, this method isn't allowed.");
+    public ActionResult Unauthorized(string? message = "") =>
+        new UnauthorizedObjectResult(new ResponseMessage<T>(HttpStatusCode.Unauthorized, message));
 
-    public ResponseMessage<T> InternalServerError(Exception exception) =>
-        new(HttpStatusCode.InternalServerError, exception.FormatLogMessage());
+    public ActionResult MethodNotAllowed() =>
+        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.MethodNotAllowed, "Sorry, this method isn't allowed."));
 
-    public ResponseMessage<bool> IdentityResultMessage(IdentityResult? identityResult, string? successMessage = "Success")
+    public ActionResult InternalServerError(Exception exception) =>
+        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.InternalServerError, exception.FormatLogMessage()));
+
+    public ActionResult IdentityResultMessage(IdentityResult? identityResult, string? successMessage = "Success")
     {
         if (identityResult is not null && !identityResult.Succeeded)
         {
             var msg = string.Empty;
             identityResult.Errors?.ToList().ForEach(x => { msg += x.Description; });
-            return new (HttpStatusCode.BadRequest, msg);
+            return new BadRequestObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, msg));
         }
-        
-        return new (HttpStatusCode.OK, successMessage);
+
+        return new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, successMessage));
     }
 }

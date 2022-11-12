@@ -7,8 +7,8 @@ public interface IUserApplicationRepository
 {
     Task<bool> ValidatePassword(UserApplication user, string password);
     Task<IEnumerable<UserApplication>> ReadAllUsersAsync();
-    Task<UserApplication> ReadUserByIdAsync(Guid id);
-    Task<UserApplication> ReadUserByUserNameAsync(string username);
+    Task<UserApplication?> ReadUserByIdAsync(Guid id);
+    Task<UserApplication?> ReadUserByUserNameAsync(string username);
     Task<IdentityResult> CreateUserAsync(UserApplication user, string password);
     Task<IdentityResult> UpdateUserAsync(UserApplication user);
     Task<IdentityResult> DeleteUserAsync(UserApplication user);
