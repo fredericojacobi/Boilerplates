@@ -56,23 +56,17 @@ public class ResponseMessage<T>
 
     public ActionResult Ok(T record) => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, record));
 
-    public ActionResult Ok(IEnumerable<T>? records) =>
-        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, records));
+    public ActionResult Ok(IEnumerable<T>? records) => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, records));
 
-    public ActionResult BadRequest(string? message = "") =>
-        new BadRequestObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, message));
+    public ActionResult BadRequest(string? message = "") => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, message));
 
-    public ActionResult NotFound(string? message = "") =>
-        new NotFoundObjectResult(new ResponseMessage<T>(HttpStatusCode.NotFound, message));
+    public ActionResult NotFound(string? message = "") => new NotFoundObjectResult(new ResponseMessage<T>(HttpStatusCode.NotFound, message));
 
-    public ActionResult Unauthorized(string? message = "") =>
-        new UnauthorizedObjectResult(new ResponseMessage<T>(HttpStatusCode.Unauthorized, message));
+    public ActionResult Unauthorized(string? message = "") => new UnauthorizedObjectResult(new ResponseMessage<T>(HttpStatusCode.Unauthorized, message));
 
-    public ActionResult MethodNotAllowed() =>
-        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.MethodNotAllowed, "Sorry, this method isn't allowed."));
+    public ActionResult MethodNotAllowed() => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.MethodNotAllowed, "Sorry, this method isn't allowed."));
 
-    public ActionResult InternalServerError(Exception exception) =>
-        new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.InternalServerError, exception.FormatLogMessage()));
+    public ActionResult InternalServerError(Exception exception) => new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.InternalServerError, exception.FormatLogMessage()));
 
     public ActionResult IdentityResultMessage(IdentityResult? identityResult, string? successMessage = "Success")
     {
@@ -80,7 +74,7 @@ public class ResponseMessage<T>
         {
             var msg = string.Empty;
             identityResult.Errors?.ToList().ForEach(x => { msg += x.Description; });
-            return new BadRequestObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, msg));
+            return new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.BadRequest, msg));
         }
 
         return new OkObjectResult(new ResponseMessage<T>(HttpStatusCode.OK, successMessage));
