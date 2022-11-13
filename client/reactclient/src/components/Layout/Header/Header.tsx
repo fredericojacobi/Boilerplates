@@ -11,7 +11,7 @@ import Link from '../../Link/Link';
 import styles from './Header.module.scss';
 import {Routes} from '../../../enums/Routes';
 import {useAuthService} from '../../../hooks/useAuthService';
-import {log} from '../../../functions/util';
+import {getPage} from '../../../routes/Pages';
 
 export default function Header(): JSX.Element {
 
@@ -31,7 +31,7 @@ export default function Header(): JSX.Element {
 							<AdbIcon sx={{display: 'flex', mr: 1}}/>
 						</Container>
 						<Box sx={{flexGrow: 0}}>
-							{isLoggedIn ? <Link route={Routes.Dashboard}>My Account</Link> : <Link route={Routes.SignUp}>Sign Up</Link>}
+							{isLoggedIn ? <Link route={Routes.Dashboard}>My Account</Link> : <Link route={Routes.SignIn}>{getPage(Routes.SignIn).label}</Link>}
 						</Box>
 					</Toolbar>
 				</Container>

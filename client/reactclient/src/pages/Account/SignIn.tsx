@@ -44,16 +44,14 @@ export default function SignIn(): JSX.Element {
 		if (loading) {
 			setTimeout(() => {
 				setLoadingPercentage(loadingPercentage + 1);
-				log(loadingPercentage);
 			}, 1800);
 		}
 	}, [loadingPercentage]);
 
 	const onSubmit = async (data: IUser) => {
 		setLoading(true);
-		await authService.signIn(data?.userName ?? '', data?.password ?? '')
+		await authService.signIn(data)
 			.then((response: IResponseMessage<IUser>) => {
-				log(response);
 				if (response.error) {
 					setErrorMessage(response.message);
 				}
@@ -62,7 +60,7 @@ export default function SignIn(): JSX.Element {
 	};
 
 	const validationSchema = Yup.object().shape({
-		userName: Yup.string()
+		username: Yup.string()
 			.required('Username is required')
 			.min(6, 'Username must be at least 6 characters'),
 		password: Yup.string()
@@ -71,7 +69,7 @@ export default function SignIn(): JSX.Element {
 	});
 
 	const passwordErrorMessage = (): string => errors?.password?.message?.toString() ?? '';
-	const userNameErrorMessage = (): string => errors?.userName?.message?.toString() ?? '';
+	const usernameErrorMessage = (): string => errors?.username?.message?.toString() ?? '';
 
 	const {
 		register,
@@ -133,12 +131,12 @@ export default function SignIn(): JSX.Element {
 							>
 								<TextField
 									required
-									id="userName"
+									id="username"
 									label="Username"
 									sx={{marginBottom: '20px'}}
-									{...register('userName')}
-									error={!!errors.userName}
-									helperText={userNameErrorMessage()}
+									{...register('username')}
+									error={!!errors.username}
+									helperText={usernameErrorMessage()}
 								/>
 								<TextField
 									required

@@ -10,7 +10,7 @@ export const setErrorResponseObject = (err: IResponseMessage<IUser>): IResponseM
 			return {
 				count: 0,
 				error: true,
-				message: 'Service unavailable',
+				message: 'Woops! Something went wrong',
 				records: [],
 				status: 503
 			};

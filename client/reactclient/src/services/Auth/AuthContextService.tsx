@@ -4,7 +4,6 @@ import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import {AuthServiceContext} from '../../contexts/AuthServiceContext';
 import {AuthService} from './AuthService';
 import IAuthService from '../../interfaces/services/IAuthService';
-import {useAuthService} from '../../hooks/useAuthService';
 
 export default function AuthContextService({children}: any): JSX.Element {
 	const authService: IAuthService = {
@@ -14,11 +13,11 @@ export default function AuthContextService({children}: any): JSX.Element {
 		signOut(): boolean {
 			return AuthService.signOut();
 		},
-		async signUp(username: string, password: string, email: string): Promise<IResponseMessage<IUser>> {
-			return await AuthService.signUp(username, password, email);
+		async signUp(data: IUser): Promise<IResponseMessage<IUser>> {
+			return await AuthService.signUp(data);
 		},
-		async signIn(username: string, password: string): Promise<IResponseMessage<IUser>> {
-			return await AuthService.signIn(username, password);
+		async signIn(data: IUser): Promise<IResponseMessage<IUser>> {
+			return await AuthService.signIn(data);
 		},
 		isLoggedIn(): boolean {
 			return AuthService.isLoggedIn();

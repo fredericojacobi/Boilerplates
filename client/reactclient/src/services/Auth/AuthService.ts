@@ -1,7 +1,6 @@
 import api from '../../config/Api';
 import IUser from '../../interfaces/models/IUser';
 import {
-	AxiosError,
 	AxiosResponse
 } from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
@@ -11,8 +10,8 @@ import {log} from '../../functions/util';
 
 export const AuthService: IAuthService = {
 
-	signIn: async (username: string, password: string): Promise<IResponseMessage<IUser>> => {
-		return await api.Post<IUser>('user/signin', {userName: username, password: password})
+	signIn: async (data: IUser): Promise<IResponseMessage<IUser>> => {
+		return await api.Post<IUser>('user/signin', data)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
 				if (response.data.records[0]?.token) {
 					localStorage.setItem('user', JSON.stringify(response.data.records[0]));
@@ -24,8 +23,8 @@ export const AuthService: IAuthService = {
 			});
 	},
 
-	signUp: async (username: string, password: string, email: string): Promise<IResponseMessage<IUser>> => {
-		return await api.Post<IUser>('user/signup', {userName: username, password: password, email: email})
+	signUp: async (data: IUser): Promise<IResponseMessage<IUser>> => {
+		return await api.Post<IUser>('user/signup', data)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
 				return response.data;
 			})

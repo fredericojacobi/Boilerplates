@@ -21,6 +21,7 @@ import {log} from '../../functions/util';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import {useAuthService} from '../../hooks/useAuthService';
 import {Routes} from '../../enums/Routes';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 export default function SignUp(): JSX.Element {
 
@@ -33,19 +34,16 @@ export default function SignUp(): JSX.Element {
 		if (loading) {
 			setTimeout(() => {
 				setLoadingPercentage(loadingPercentage + 1);
-				log(loadingPercentage);
 			}, 1800);
 		}
 	}, [loadingPercentage]);
 
 	const onSubmit = async (data: IUser) => {
 		setLoading(true);
-		await authService.signIn(data?.userName ?? '', data?.password ?? '')
+		await authService.signUp(data)
 			.then((response: IResponseMessage<IUser>) => {
 				if (response.error) {
 					setErrorMessage(response.message);
-				} else {
-					setErrorMessage('');
 				}
 			});
 		setLoading(false);
@@ -53,8 +51,8 @@ export default function SignUp(): JSX.Element {
 
 	const validationSchema = Yup.object().shape({
 		email: Yup.string()
-			.email()
-			.required('Email is required'),
+			.required('Email invalid')
+			.email('Email invalid'),
 		username: Yup.string()
 			.required('Username is required')
 			.min(6, 'Username must be at least 6 characters'),
@@ -115,9 +113,14 @@ export default function SignUp(): JSX.Element {
 								padding: '10px'
 							}}
 						>
-							<Typography>
-								{/*{errorMessage}*/}
-								errorMsg
+							<Typography
+								sx={{
+									display: errorMessage ? 'flex' : 'flex',
+									padding: '10px',
+									color: 'red'
+								}}
+							>
+								{errorMessage}
 							</Typography>
 						</Box>
 						<Box>
