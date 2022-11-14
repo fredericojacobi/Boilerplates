@@ -40,7 +40,7 @@ export const AuthService: IAuthService = {
 
 	getCurrentUser: (): IUser => {
 		const userData = localStorage.getItem('user') ?? '';
-		return JSON.parse('[{}]');
+		return JSON.parse(userData);
 	},
 
 	isLoggedIn: (): boolean => {
