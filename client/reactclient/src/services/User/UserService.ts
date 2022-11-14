@@ -18,7 +18,7 @@ export const UserService: IUserService = {
 	},
 
 	getUserInfo: async (id?: string): Promise<IResponseMessage<IUser>> => {
-		return await api.Get<IUser>(`user/1aac97bf-913b-4ba2-6a4b-08da7f06e0eb${id ?? ''}`)
+		return await api.Get<IUser>(`user/${id ?? ''}`)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
 				return response.data;
 			})
