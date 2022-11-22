@@ -1,5 +1,6 @@
 ﻿using Contracts.Repositories;
 using Entities.Models;
+using Generics.Models;
 using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,13 @@ public class UserApplicationRepository : IUserApplicationRepository
     public async Task<bool> ValidatePassword(UserApplication user, string password) => await _userManager.CheckPasswordAsync(user, password);
 
     public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await _userManager.Users.ToListAsync();
+
+    public async Task<Pagination<UserApplication>> ReadAllUsersPaginatedAsync(int page, int limit)
+    {
+        var totalRecords = await _userManager.Users.ToListAsync();
+        var result = await _userManager.Users.Skip((page - 1) * limit).Take(limit).ToListAsync();
+        return new Pagination<UserApplication>(result, totalRecords.Count, page, limit);
+    }
 
     public async Task<UserApplication?> ReadUserByIdAsync(Guid id) => await _userManager.FindByIdAsync(id.ToString());
 

@@ -16,10 +16,10 @@ public class UserApplication : IdentityUser<Guid>
     public UserType UserType { get; set; }
     
     public DateTime? PaidUntil { get; set; }
-    
-    [NotMapped]
-    public bool IsAdmin { get; set; }
-    
-    [NotMapped]
-    public bool IsFreeUser { get; set; }
+
+    [NotMapped] 
+    public bool IsAdmin => UserType.Equals(UserType.Admin);
+
+    [NotMapped] 
+    public bool IsFreeUser => UserType.Equals(UserType.Free) || UserType.Equals(UserType.Undefined);
 }

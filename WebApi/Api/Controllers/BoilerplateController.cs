@@ -10,22 +10,27 @@ namespace Api.Controllers;
 public class BoilerplateController : ControllerBase
 {
     private readonly IServiceWrapper _service;
+    private ResponseMessage<dynamic> _responseMessage;
 
-    public BoilerplateController(IServiceWrapper service) => _service = service;
+    public BoilerplateController(IServiceWrapper service, ResponseMessage<dynamic> responseMessage)
+    {
+        _service = service;
+        _responseMessage = responseMessage;
+    }
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
-    public async Task<ActionResult> Get() => Ok(new ResponseMessage<bool>().MethodNotAllowed());
+    public async Task<ActionResult> Get() => _responseMessage.Ok(new {});
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPost]
-    public async Task<ActionResult> Post() => Ok(new ResponseMessage<bool>().MethodNotAllowed());
+    public async Task<ActionResult> Post() => _responseMessage.Ok(new {});
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut]
-    public async Task<ActionResult> Put() => Ok(new ResponseMessage<bool>().MethodNotAllowed());
+    public async Task<ActionResult> Put() => _responseMessage.Ok(new {});
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpDelete]
-    public async Task<ActionResult> Delete() => Ok(new ResponseMessage<bool>().MethodNotAllowed());
+    public async Task<ActionResult> Delete() => _responseMessage.Ok(new {});
 }

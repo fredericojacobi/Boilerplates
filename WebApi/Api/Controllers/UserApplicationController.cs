@@ -13,9 +13,9 @@ public class UserApplicationController : ControllerBase
 
     public UserApplicationController(IServiceWrapper service) => _service = service;
 
-    // [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
-    public async Task<ActionResult> Get() => await _service.UserApplication.GetAllAsync();
+    public async Task<ActionResult> Get([FromQuery] int page = 0, [FromQuery] int limit = 0) => await _service.UserApplication.GetAllAsync(page, limit);
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet("{id}")]
@@ -27,7 +27,7 @@ public class UserApplicationController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("signup")]
-    public async Task<ActionResult> Post([FromBody] UserApplicationRegisterDto dto) => await _service.UserApplication.PostAsync(dto);
+    public async Task<ActionResult> SignUp([FromBody] UserApplicationRegisterDto dto) => await _service.UserApplication.PostAsync(dto);
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut("{id}")]

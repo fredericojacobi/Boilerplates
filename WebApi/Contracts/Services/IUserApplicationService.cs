@@ -1,5 +1,4 @@
 ﻿using Entities.DataTransferObjects.UserApplication;
-using Generics.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contracts.Services;
@@ -7,7 +6,7 @@ namespace Contracts.Services;
 public interface IUserApplicationService
 {
     Task<ActionResult> Authenticate(UserApplicationLoginDto userDTO);
-    Task<ActionResult> GetAllAsync();
+    Task<ActionResult> GetAllAsync(int page, int limit);
     Task<ActionResult> GetAsync(Guid id);
     Task<ActionResult> PostAsync(UserApplicationRegisterDto userDTO);
     Task<ActionResult> PutAsync(Guid id, UserApplicationUpdateDto userDTO);

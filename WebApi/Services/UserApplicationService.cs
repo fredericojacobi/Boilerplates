@@ -19,9 +19,6 @@ public class UserApplicationService : IUserApplicationService
     private readonly ILoggerService _loggerService;
     private readonly IMapper _mapper;
 
-    private readonly ResponseMessage<UserApplicationDto> _responseMessage = new();
-    private readonly ResponseMessage<bool> _bResponseMessage = new();
-
     public UserApplicationService(ILoggerService loggerService, IRepositoryWrapper repository, IMapper mapper)
     {
         _loggerService = loggerService;
@@ -37,7 +34,7 @@ public class UserApplicationService : IUserApplicationService
         {
             var user = await _repository.UserApplication.ReadUserByUserNameAsync(userDTO.UserName);
             if (user == null) return responseMessage.NotFound("User not found");
-                
+
             if (await _repository.UserApplication.ValidatePassword(user, userDTO.Password))
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -47,7 +44,7 @@ public class UserApplicationService : IUserApplicationService
                     UserName = user.UserName
                 };
 
-                await _loggerService.Log($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Authentication, user.Id);
+                await _loggerService.Log($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Success, user.Id);
                 return responseMessage.Ok(tokenDto);
             }
 
@@ -57,30 +54,57 @@ public class UserApplicationService : IUserApplicationService
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Authentication failed. Exception message: {ex.Message}", LogType.Exception);
+            await _loggerService.Log($"Authentication failed. Exception message: {ex.Message}", LogType.Error);
             return responseMessage.InternalServerError(ex);
         }
     }
 
+    public async Task<ActionResult> GetAllAsync(int page, int limit) => page > 0 && limit > 0 ? await GetAllPaginatedAsync(page, limit) : await GetAllAsync();
+
     public async Task<ActionResult> GetAllAsync()
     {
+        var _responseMessage = new ResponseMessage<UserApplicationDto>();
+
         try
         {
             var result = await _repository.UserApplication.ReadAllUsersAsync();
             if (result.IsEmpty()) return _responseMessage.NotFound();
 
-            var dto = _mapper.Map<IEnumerable<UserApplicationDto>>(result);
+            var dto = _mapper.Map<List<UserApplicationDto>>(result);
+
             return _responseMessage.Ok(dto);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Get Users failed. Exception message: {ex.Message}", LogType.Exception);
+            await _loggerService.Log($"Get User failed. Exception message: {ex.Message}", LogType.Error);
+            return _responseMessage.InternalServerError(ex);
+        }
+    }
+
+    private async Task<ActionResult> GetAllPaginatedAsync(int page, int limit)
+    {
+        var _responseMessage = new ResponseMessage<Pagination<UserApplicationDto>>();
+
+        try
+        {
+            var result = await _repository.UserApplication.ReadAllUsersPaginatedAsync(page, limit);
+            if (result.Records.IsEmpty()) return _responseMessage.NotFound();
+
+            var dto = _mapper.Map<Pagination<UserApplicationDto>>(result);
+
+            return _responseMessage.Ok(dto);
+        }
+        catch (Exception ex)
+        {
+            await _loggerService.Log($"Get Users failed. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
 
     public async Task<ActionResult> GetAsync(Guid id)
     {
+        var _responseMessage = new ResponseMessage<UserApplicationDto>();
+
         try
         {
             var user = await _repository.UserApplication.ReadUserByIdAsync(id);
@@ -91,13 +115,15 @@ public class UserApplicationService : IUserApplicationService
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Get User {id} failed. Exception message: {ex.Message}", LogType.Exception);
+            await _loggerService.Log($"Get User id: {id} failed. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
 
     public async Task<ActionResult> PostAsync(UserApplicationRegisterDto userDTO)
     {
+        var _responseMessage = new ResponseMessage<UserApplicationDto>();
+
         try
         {
             var user = _mapper.Map<UserApplication>(userDTO);
@@ -108,30 +134,32 @@ public class UserApplicationService : IUserApplicationService
                 result.Errors?
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
-                
+
                 await _loggerService.Log($"Failed to create a new User. Error: {msg}", LogType.Error);
                 return _responseMessage.BadRequest(msg);
             }
 
             var createdUser = await _repository.UserApplication.ReadUserByUserNameAsync(user.UserName);
             await _loggerService.Log($"UserId {createdUser?.Id} created. {JsonSerializer.Serialize(createdUser)}", LogType.Success, createdUser?.Id);
-            
+
             var dto = _mapper.Map<UserApplicationDto>(createdUser);
             return _responseMessage.Ok(dto);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to create a new User. Exception message: {ex.Message}", LogType.Exception);
+            await _loggerService.Log($"Failed to create a new User. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
 
     public async Task<ActionResult> PutAsync(Guid id, UserApplicationUpdateDto userDTO)
     {
+        var _responseMessage = new ResponseMessage<bool>();
+
         if (!id.Equals(userDTO.Id))
         {
             await _loggerService.Log($"Fail to update an User. Error: Id's doesn't match. Querystring: {id}. Dto: {userDTO.Id}", LogType.Error);
-            return _bResponseMessage.BadRequest("Id's doesn't match.");
+            return _responseMessage.BadRequest("Id's doesn't match.");
         }
 
         try
@@ -144,31 +172,33 @@ public class UserApplicationService : IUserApplicationService
                 result.Errors?
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
-                
+
                 await _loggerService.Log($"Failed to update an User. Error: {msg}", LogType.Error, user.Id);
-                return _bResponseMessage.BadRequest(msg);
+                return _responseMessage.BadRequest(msg);
             }
 
             var updatedUser = await _repository.UserApplication.ReadUserByIdAsync(user.Id);
             await _loggerService.Log($"UserId {userDTO.Id} updated. {JsonSerializer.Serialize(updatedUser)}", LogType.Success, userDTO.Id);
-            return _bResponseMessage.IdentityResultMessage(result);
+            return _responseMessage.IdentityResultMessage(result);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to update an User. Exception message: {ex.Message}", LogType.Exception, userDTO.Id);
-            return _bResponseMessage.InternalServerError(ex);
+            await _loggerService.Log($"Failed to update an User. Exception message: {ex.Message}", LogType.Error, userDTO.Id);
+            return _responseMessage.InternalServerError(ex);
         }
     }
 
     public async Task<ActionResult> DeleteAsync(Guid id)
     {
-        if (id.IsDefault()) return _bResponseMessage.BadRequest("Invalid Id");
+        var _responseMessage = new ResponseMessage<bool>();
+
+        if (id.IsDefault()) return _responseMessage.BadRequest("Invalid Id");
 
         try
         {
             var user = await _repository.UserApplication.ReadUserByIdAsync(id);
-            if(user == null) return _responseMessage.NotFound();
-            
+            if (user == null) return _responseMessage.NotFound();
+
             var result = await _repository.UserApplication.DeleteUserAsync(id);
             if (!result.Succeeded)
             {
@@ -176,18 +206,18 @@ public class UserApplicationService : IUserApplicationService
                 result.Errors?
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
-                
-                await _loggerService.Log($"Failed to delete an User. Error: {msg}", LogType.Error, id);
-                return _bResponseMessage.BadRequest(msg);
+
+                await _loggerService.Log($"Failed to delete an User. {JsonSerializer.Serialize(user)} Error: {msg}", LogType.Error, id);
+                return _responseMessage.BadRequest(msg);
             }
-            
+
             await _loggerService.Log($"User deleted. {JsonSerializer.Serialize(user)}", LogType.Success, id);
-            return _bResponseMessage.IdentityResultMessage(result);
+            return _responseMessage.IdentityResultMessage(result);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to delete an User. Exception message: {ex.Message}", LogType.Exception, id);
-            return _bResponseMessage.InternalServerError(ex);
+            await _loggerService.Log($"Failed to delete an User. Exception message: {ex.Message}", LogType.Error, id);
+            return _responseMessage.InternalServerError(ex);
         }
     }
 }

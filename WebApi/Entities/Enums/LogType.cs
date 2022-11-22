@@ -3,8 +3,7 @@
 public enum LogType
 {
     Undefined = 0,
-    Authentication = 1,
     Success = 2,
-    Exception = 98,
+    Warning = 97,
     Error = 99
 }
