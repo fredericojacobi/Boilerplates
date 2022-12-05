@@ -1,11 +1,12 @@
 import api from '../../config/Api';
 import IUser from '../../interfaces/models/IUser';
-import {
-	AxiosResponse
-} from 'axios';
+import {AxiosResponse} from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IAuthService from '../../interfaces/services/IAuthService';
 import {setErrorResponseObject} from '../../functions/Request';
+import {useNavigate} from 'react-router-dom';
+import {getPage} from '../../routes/Pages';
+import {Routes} from '../../enums/Routes';
 import {log} from '../../functions/util';
 
 export const AuthService: IAuthService = {
@@ -39,11 +40,28 @@ export const AuthService: IAuthService = {
 	},
 
 	getCurrentUser: (): IUser => {
-		const userData = localStorage.getItem('user') ?? '';
+		const userData = localStorage.getItem('user') ?? '[]';
 		return JSON.parse(userData);
 	},
 
 	isLoggedIn: (): boolean => {
+		const user = AuthService.getCurrentUser();
+
+		if (user.token !== undefined) {
+			const decodedJwt = parseJwt(user.token ?? '[]');
+			if (decodedJwt.exp * 1000 < Date.now()) {
+				AuthService.signOut();
+			}
+		}
 		return !!AuthService.getCurrentUser().token;
+	}
+};
+
+const parseJwt = (token: string) => {
+	try {
+		return JSON.parse(atob(token.split('.')[1]));
+	}
+	catch (e) {
+		return null;
 	}
 };

@@ -4,6 +4,7 @@ import {UserServiceContext} from '../../contexts/UserServiceContext';
 import {UserService} from './UserService';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IUserService from '../../interfaces/services/IUserService';
+import {IPagination} from '../../interfaces/models/IPagination';
 
 export default function UserContextService({children}: any): JSX.Element {
 	const userService: IUserService = {
@@ -12,6 +13,9 @@ export default function UserContextService({children}: any): JSX.Element {
 		},
 		async getUser(id: string): Promise<IResponseMessage<IUser>> {
 			return await UserService.getUser(id);
+		},
+		async getUsers(page?: number, limit?: number): Promise<IResponseMessage<IPagination<IUser>>> {
+			return await UserService.getUsers(page, limit);
 		},
 		async postUser(data: IUser): Promise<IResponseMessage<IUser>> {
 			return await UserService.postUser(data);

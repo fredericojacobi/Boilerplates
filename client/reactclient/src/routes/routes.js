@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -7,6 +7,7 @@ import {
 import {Pages} from './Pages';
 
 export default function AppRouter() {
+
 	return (
 		<Router>
 			<Routes>

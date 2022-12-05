@@ -4,6 +4,8 @@ import Footer from './Footer/Footer';
 import styles from './Layout.module.scss';
 import Box from '@mui/material/Box';
 import DashboardMenu from './DashboardMenu/DashboardMenu';
+import AuthenticationVerify from '../AuthenticationVerify/AuthenticationVerify';
+import {log} from '../../functions/util';
 
 interface ILayoutProps {
 	page: JSX.Element;
@@ -11,8 +13,9 @@ interface ILayoutProps {
 }
 
 export default function Layout(props: ILayoutProps): JSX.Element {
+
 	return (
-		<>
+		<AuthenticationVerify>
 			<Header/>
 			<Box sx={{display: 'flex', height: '76vh'}}>
 				<DashboardMenu visible={props.dashboard ?? false}/>
@@ -23,6 +26,6 @@ export default function Layout(props: ILayoutProps): JSX.Element {
 				</Box>
 			</Box>
 			<Footer/>
-		</>
+		</AuthenticationVerify>
 	);
 }

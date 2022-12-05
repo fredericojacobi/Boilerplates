@@ -3,7 +3,12 @@ import IUser from '../../interfaces/models/IUser';
 import {AxiosResponse} from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IUserService from '../../interfaces/services/IUserService';
-import {setErrorResponseObject} from '../../functions/Request';
+import {
+	setErrorResponseObject,
+	setErrorResponsePaginationObject
+} from '../../functions/Request';
+import {IPagination} from '../../interfaces/models/IPagination';
+import {log} from '../../functions/util';
 
 export const UserService: IUserService = {
 
@@ -14,6 +19,16 @@ export const UserService: IUserService = {
 			})
 			.catch((err: IResponseMessage<IUser>) => {
 				return setErrorResponseObject(err);
+			});
+	},
+
+	getUsers: async (page?: number, limit?: number): Promise<IResponseMessage<IPagination<IUser>>> => {
+		return await api.Get<IPagination<IUser>>(`user?page=${page ?? 1}&limit=${limit ?? 10}`)
+			.then((response: AxiosResponse<IResponseMessage<IPagination<IUser>>>) => {
+				return response.data;
+			})
+			.catch((err: IResponseMessage<IPagination<IUser>>) => {
+				return setErrorResponsePaginationObject(err);
 			});
 	},
 

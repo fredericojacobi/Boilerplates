@@ -11,3 +11,19 @@ export const scrollToBottom = (element: any) => element.scrollIntoView({behavior
 export const deviceType = () => {
 	/Android|webOS|iPhone|iPad|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
 };
+
+export const randomAlphaNumericId = (length: number): string => {
+	const heyStack = '0123456789abcdefghijklmnopqrstuvwxyz';
+	const randomInt = (): number => Math.floor(Math.random() * Math.floor(heyStack.length));
+
+	return Array.from({length}, () => heyStack[randomInt()]).join('');
+};
+
+export const parseJwt = (token: string) => {
+	try {
+		return JSON.parse(atob(token.split('.')[1]));
+	}
+	catch (e) {
+		return null;
+	}
+};
