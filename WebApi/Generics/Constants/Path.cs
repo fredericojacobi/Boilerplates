@@ -2,5 +2,6 @@
 
 public static class Path
 {
-    public static string LogsPath => $@"{System.IO.Path.GetTempPath()}";
+    public const string LogsPath = @"D:\projetos\Boilerplates\WebApi\Api\wwwroot\temp\logs";
+    // {System.IO.Path.GetTempPath()}
 }

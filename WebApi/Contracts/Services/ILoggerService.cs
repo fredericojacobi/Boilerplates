@@ -6,7 +6,7 @@ namespace Contracts.Services;
 
 public interface ILoggerService
 {
-    Task Log(string message,
+    Task LogAsync(string message,
         LogType logType,
         Guid? userId = default,
         [CallerMemberName] string memberName = "",

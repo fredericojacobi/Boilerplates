@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Extensions;
+using Generics.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

@@ -3,8 +3,6 @@ using Contracts.Repositories;
 using Contracts.Services;
 using Entities.Enums;
 using Entities.Models;
-using Generics.Constants;
-using Path = System.IO.Path;
 
 namespace Services;
 
@@ -14,7 +12,7 @@ public class LoggerService : ILoggerService
 
     public LoggerService(IRepositoryWrapper repository) => _repository = repository;
 
-    public async Task Log(string message,
+    public async Task LogAsync(string message,
         LogType logType,
         Guid? userId = default,
         [CallerMemberName] string memberName = "",

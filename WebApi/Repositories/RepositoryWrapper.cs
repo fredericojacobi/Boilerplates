@@ -19,6 +19,6 @@ public class RepositoryWrapper : IRepositoryWrapper
         _userManager = userManager;
     }
 
-    public IUserApplicationRepository UserApplication => _userApplication ??= new UserApplicationRepository(_context, _userManager);
+    public IUserApplicationRepository UserApplication => _userApplication ??= new UserApplicationRepository(_userManager);
     public ILoggerRepository Logger => _logger ??= new LoggerRepository(_context);
 }

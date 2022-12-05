@@ -6,8 +6,8 @@ using Contracts.Services;
 using Entities.DataTransferObjects.UserApplication;
 using Entities.Enums;
 using Entities.Models;
-using Extensions;
 using Generics.Constants;
+using Generics.Extensions;
 using Generics.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,22 +44,26 @@ public class UserApplicationService : IUserApplicationService
                     UserName = user.UserName
                 };
 
-                await _loggerService.Log($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Success, user.Id);
+                await _loggerService.LogAsync($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Success, user.Id);
                 return responseMessage.Ok(tokenDto);
             }
 
-            await _loggerService.Log($"Authentication failed. Wrong username or password.", LogType.Error, user.Id);
+            await _loggerService.LogAsync($"Authentication failed. Wrong username or password.", LogType.Error, user.Id);
 
             return responseMessage.Unauthorized("Wrong username or password.");
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Authentication failed. Exception message: {ex.Message}", LogType.Error);
+            await _loggerService.LogAsync($"Authentication failed. Exception message: {ex.Message}", LogType.Error);
             return responseMessage.InternalServerError(ex);
         }
     }
 
-    public async Task<ActionResult> GetAllAsync(int page, int limit) => page > 0 && limit > 0 ? await GetAllPaginatedAsync(page, limit) : await GetAllAsync();
+    public async Task<ActionResult> GetAllAsync(int page, int limit)
+    {
+        await _loggerService.LogAsync("test message", LogType.Success);
+        return page > 0 && limit > 0 ? await GetAllPaginatedAsync(page, limit) : await GetAllAsync();
+    }
 
     public async Task<ActionResult> GetAllAsync()
     {
@@ -76,7 +80,7 @@ public class UserApplicationService : IUserApplicationService
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Get User failed. Exception message: {ex.Message}", LogType.Error);
+            await _loggerService.LogAsync($"Get User failed. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
@@ -96,7 +100,7 @@ public class UserApplicationService : IUserApplicationService
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Get Users failed. Exception message: {ex.Message}", LogType.Error);
+            await _loggerService.LogAsync($"Get Users failed. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
@@ -115,7 +119,7 @@ public class UserApplicationService : IUserApplicationService
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Get User id: {id} failed. Exception message: {ex.Message}", LogType.Error);
+            await _loggerService.LogAsync($"Get User id: {id} failed. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
@@ -135,19 +139,19 @@ public class UserApplicationService : IUserApplicationService
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
 
-                await _loggerService.Log($"Failed to create a new User. Error: {msg}", LogType.Error);
+                await _loggerService.LogAsync($"Failed to create a new User. Error: {msg}", LogType.Error);
                 return _responseMessage.BadRequest(msg);
             }
 
             var createdUser = await _repository.UserApplication.ReadUserByUserNameAsync(user.UserName);
-            await _loggerService.Log($"UserId {createdUser?.Id} created. {JsonSerializer.Serialize(createdUser)}", LogType.Success, createdUser?.Id);
+            await _loggerService.LogAsync($"UserId {createdUser?.Id} created. {JsonSerializer.Serialize(createdUser)}", LogType.Success, createdUser?.Id);
 
             var dto = _mapper.Map<UserApplicationDto>(createdUser);
             return _responseMessage.Ok(dto);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to create a new User. Exception message: {ex.Message}", LogType.Error);
+            await _loggerService.LogAsync($"Failed to create a new User. Exception message: {ex.Message}", LogType.Error);
             return _responseMessage.InternalServerError(ex);
         }
     }
@@ -158,7 +162,7 @@ public class UserApplicationService : IUserApplicationService
 
         if (!id.Equals(userDTO.Id))
         {
-            await _loggerService.Log($"Fail to update an User. Error: Id's doesn't match. Querystring: {id}. Dto: {userDTO.Id}", LogType.Error);
+            await _loggerService.LogAsync($"Fail to update an User. Error: Id's doesn't match. Querystring: {id}. Dto: {userDTO.Id}", LogType.Error);
             return _responseMessage.BadRequest("Id's doesn't match.");
         }
 
@@ -173,17 +177,17 @@ public class UserApplicationService : IUserApplicationService
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
 
-                await _loggerService.Log($"Failed to update an User. Error: {msg}", LogType.Error, user.Id);
+                await _loggerService.LogAsync($"Failed to update an User. Error: {msg}", LogType.Error, user.Id);
                 return _responseMessage.BadRequest(msg);
             }
 
             var updatedUser = await _repository.UserApplication.ReadUserByIdAsync(user.Id);
-            await _loggerService.Log($"UserId {userDTO.Id} updated. {JsonSerializer.Serialize(updatedUser)}", LogType.Success, userDTO.Id);
+            await _loggerService.LogAsync($"UserId {userDTO.Id} updated. {JsonSerializer.Serialize(updatedUser)}", LogType.Success, userDTO.Id);
             return _responseMessage.IdentityResultMessage(result);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to update an User. Exception message: {ex.Message}", LogType.Error, userDTO.Id);
+            await _loggerService.LogAsync($"Failed to update an User. Exception message: {ex.Message}", LogType.Error, userDTO.Id);
             return _responseMessage.InternalServerError(ex);
         }
     }
@@ -207,16 +211,16 @@ public class UserApplicationService : IUserApplicationService
                     .ToList()
                     .ForEach(x => { msg += x.Description; });
 
-                await _loggerService.Log($"Failed to delete an User. {JsonSerializer.Serialize(user)} Error: {msg}", LogType.Error, id);
+                await _loggerService.LogAsync($"Failed to delete an User. {JsonSerializer.Serialize(user)} Error: {msg}", LogType.Error, id);
                 return _responseMessage.BadRequest(msg);
             }
 
-            await _loggerService.Log($"User deleted. {JsonSerializer.Serialize(user)}", LogType.Success, id);
+            await _loggerService.LogAsync($"User deleted. {JsonSerializer.Serialize(user)}", LogType.Success, id);
             return _responseMessage.IdentityResultMessage(result);
         }
         catch (Exception ex)
         {
-            await _loggerService.Log($"Failed to delete an User. Exception message: {ex.Message}", LogType.Error, id);
+            await _loggerService.LogAsync($"Failed to delete an User. Exception message: {ex.Message}", LogType.Error, id);
             return _responseMessage.InternalServerError(ex);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Extensions;
+﻿namespace Generics.Extensions;
 
 public static class GuidExtensions
 {

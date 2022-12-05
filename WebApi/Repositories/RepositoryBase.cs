@@ -15,14 +15,28 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseModel
     public async Task<IEnumerable<T>> ReadAllAsync(params Expression<Func<T, object>>[] includeExpressions)
     {
         var query = _context.Set<T>().AsQueryable();
-        includeExpressions.ToList().ForEach(x => query = query.Include(x));
+        includeExpressions
+            .ToList()
+            .ForEach(x => query = query.Include(x));
         return await query.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<Pagination<T>> ReadAllPaginatedAsync(int page, int limit)
+    {
+        var totalRecords = await _context.Set<T>().CountAsync();
+        var result = await _context.Set<T>()
+            .Skip((page - 1) * limit)
+            .Take(limit)
+            .ToListAsync();
+        return new Pagination<T>(result, totalRecords, page, limit);
     }
 
     public async Task<IEnumerable<T>> ReadByConditionAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includeExpressions)
     {
         var query = _context.Set<T>().Where(expression);
-        includeExpressions.ToList().ForEach(x => query = query.Include(x));
+        includeExpressions
+            .ToList()
+            .ForEach(x => query = query.Include(x));
         return await query.AsNoTracking().ToListAsync();
     }
 

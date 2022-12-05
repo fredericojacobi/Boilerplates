@@ -1,7 +1,6 @@
 ﻿using Contracts.Repositories;
 using Entities.Models;
 using Generics.Models;
-using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +10,7 @@ public class UserApplicationRepository : IUserApplicationRepository
 {
     private readonly UserManager<UserApplication> _userManager;
 
-    public UserApplicationRepository(AppDbContext context, UserManager<UserApplication> userManager) => _userManager = userManager;
+    public UserApplicationRepository(UserManager<UserApplication> userManager) => _userManager = userManager;
 
     public async Task<bool> ValidatePassword(UserApplication user, string password) => await _userManager.CheckPasswordAsync(user, password);
 

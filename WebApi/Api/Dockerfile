@@ -6,7 +6,6 @@ COPY *.sln .
 COPY WebApi/Api/*.csproj ./WebApi/Api/
 COPY WebApi/Contracts/*.csproj ./WebApi/Contracts/
 COPY WebApi/Entities/*.csproj ./WebApi/Entities/
-COPY WebApi/Extensions/*.csproj ./WebApi/Extensions/
 COPY WebApi/Generics/*.csproj ./WebApi/Generics/
 COPY WebApi/Infrastructure/*.csproj ./WebApi/Infrastructure/
 COPY WebApi/Repositories/*.csproj ./WebApi/Repositories/
@@ -18,7 +17,6 @@ RUN dotnet restore
 COPY WebApi/Api/. ./WebApi/Api/
 COPY WebApi/Contracts/. ./WebApi/Contracts/
 COPY WebApi/Entities/. ./WebApi/Entities/
-COPY WebApi/Extensions/. ./WebApi/Extensions/
 COPY WebApi/Generics/. ./WebApi/Generics/
 COPY WebApi/Infrastructure/. ./WebApi/Infrastructure/
 COPY WebApi/Repositories/. ./WebApi/Repositories/

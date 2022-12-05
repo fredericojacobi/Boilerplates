@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Extensions;
+namespace Generics.Extensions;
 
 public static class JwtSecurityTokenHandlerExtensions
 {

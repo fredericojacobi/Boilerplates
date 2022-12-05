@@ -12,25 +12,21 @@ public class BoilerplateController : ControllerBase
     private readonly IServiceWrapper _service;
     private ResponseMessage<dynamic> _responseMessage;
 
-    public BoilerplateController(IServiceWrapper service, ResponseMessage<dynamic> responseMessage)
-    {
-        _service = service;
-        _responseMessage = responseMessage;
-    }
+    public BoilerplateController(IServiceWrapper service) => _service = service;
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpGet]
-    public async Task<ActionResult> Get() => _responseMessage.Ok(new {});
+    public async Task<ActionResult> Get() => _responseMessage.Ok(new { });
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPost]
-    public async Task<ActionResult> Post() => _responseMessage.Ok(new {});
+    public async Task<ActionResult> Post() => _responseMessage.Ok(new { });
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpPut]
-    public async Task<ActionResult> Put() => _responseMessage.Ok(new {});
+    public async Task<ActionResult> Put() => _responseMessage.Ok(new { });
 
     [Authorize(AuthenticationSchemes = "Bearer")]
     [HttpDelete]
-    public async Task<ActionResult> Delete() => _responseMessage.Ok(new {});
+    public async Task<ActionResult> Delete() => _responseMessage.Ok(new { });
 }

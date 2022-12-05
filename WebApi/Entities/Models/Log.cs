@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using Entities.Enums;
-using Extensions;
+using Generics.Extensions;
 using Generics.Models;
 
 namespace Entities.Models;
@@ -25,7 +25,7 @@ public class Log : BaseModel
     {
         var stringBuilder = new StringBuilder();
         stringBuilder.AppendLine(
-            $@"{CreatedAt.ToString("dd/MM/yyyy HH:mm:ss.fff")} - [{LogType}]: {Message} UserId: {UserApplicationId}. {Path} - {Method} method");
+            $@"{CreatedAt.ToStringLogFormat(DateTime.Now)} - [{LogType}]: {Message} UserId: {UserApplicationId}. {Path} - {Method} method");
 
         var dirInfo = new DirectoryInfo(dirPath);
         // set new file path if not exist or >= 5mb
@@ -38,12 +38,18 @@ public class Log : BaseModel
             var fileStream = File.OpenRead(currentFile.FullName);
             var filesizeLimitExceeded = fileStream.ToMegabytes() >= 5;
             fileStream.Close();
+            
+            // append current log to the end of file
+            var currentContent = File.ReadAllText(currentFile.FullName);
+            stringBuilder.AppendLine(currentContent);
+            
             // create new logfile if file size >= 5mb
             if(!filesizeLimitExceeded)
                 filePath = currentFile.FullName;
         }
 
-        // write log content
-        File.AppendAllText(filePath, stringBuilder.ToString());
+        // write log content to the beginning of file
+        
+        File.WriteAllText(filePath, stringBuilder.ToString());
     }
 }
