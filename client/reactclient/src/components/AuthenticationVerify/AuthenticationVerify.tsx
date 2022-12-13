@@ -4,7 +4,7 @@ import {
 	useNavigate
 } from 'react-router-dom';
 import {useAuthService} from '../../hooks/useAuthService';
-import {parseJwt} from '../../functions/util';
+import {log, parseJwt} from '../../functions/util';
 import {getPage} from '../../routes/Pages';
 import {Routes} from '../../enums/Routes';
 
@@ -17,10 +17,15 @@ export default function AuthenticationVerify(props: IAuthenticationVerifyProps):
 	const location = useLocation();
 	const authService = useAuthService();
 	const navigate = useNavigate();
+  const dashboardPathname:string = getPage(Routes.Dashboard).path;
 
 	useEffect(() => {
 		const user = authService.getCurrentUser();
 
+    if(location.pathname !== dashboardPathname){
+      return;
+    }
+    
 		if (user.token !== undefined) {
 			const decodedJwt = parseJwt(user.token);
 

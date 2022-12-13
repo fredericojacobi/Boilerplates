@@ -4,10 +4,6 @@ import {AxiosResponse} from 'axios';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IAuthService from '../../interfaces/services/IAuthService';
 import {setErrorResponseObject} from '../../functions/Request';
-import {useNavigate} from 'react-router-dom';
-import {getPage} from '../../routes/Pages';
-import {Routes} from '../../enums/Routes';
-import {log} from '../../functions/util';
 
 export const AuthService: IAuthService = {
 
