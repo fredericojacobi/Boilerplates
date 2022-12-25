@@ -12,7 +12,7 @@ public class UserApplicationProfile : Profile
     {
         CreateMap<UserApplication, UserApplicationRegisterDto>()
             .ForMember(dest => dest.ModifiedAt,
-                opt => opt.MapFrom(src => src.ModifiedAt == null || src.ModifiedAt.Value.IsDefault() ? string.Empty : src.ModifiedAt.Value.ToString()))
+                opt => opt.MapFrom(src => src.ModifiedAt == null || src.ModifiedAt.Value.IsDefault() ? "-" : src.ModifiedAt.Value.ToString()))
             .ReverseMap();
 
         CreateMap<UserApplication, UserApplicationUpdateDto>()
@@ -20,7 +20,9 @@ public class UserApplicationProfile : Profile
 
         CreateMap<UserApplication, UserApplicationDto>()
             .ForMember(dest => dest.ModifiedAt,
-                opt => opt.MapFrom(src => src.ModifiedAt == null || src.ModifiedAt.Value.IsDefault() ? string.Empty : src.ModifiedAt.Value.ToString()))
+                opt => opt.MapFrom(src => src.ModifiedAt == null || src.ModifiedAt.Value.IsDefault() ? "-" : src.ModifiedAt.Value.ToString()))
+            .ForMember(dest => dest.PaidUntil,
+                opt => opt.MapFrom(src => src.PaidUntil == null || src.PaidUntil.Value.IsDefault() ? "-" : src.PaidUntil.Value.ToString()))
             .ReverseMap();
 
         CreateMap<Pagination<UserApplication>, Pagination<UserApplicationDto>>()

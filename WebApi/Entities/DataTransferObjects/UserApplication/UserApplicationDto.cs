@@ -11,7 +11,7 @@ public class UserApplicationDto : BaseModelDto
     
     public UserType UserType { get; set; }
     
-    public DateTime PaidUntil { get; set; }
+    public string? PaidUntil { get; set; }
     
     public bool IsAdmin => UserType.Equals(UserType.Admin);
 
