@@ -18,7 +18,7 @@ ___
 ___
 - [x] Providing services with Context API
 - [ ] Permissions
-  - [ ] JWT Authentication
+  - [x] JWT Authentication
 - [ ] Dashboard
 - [ ] Documentation
 
