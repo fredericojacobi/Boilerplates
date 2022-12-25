@@ -4,12 +4,15 @@ import {ProvidedServices} from '../enums/ProvidedServices';
 const contexts = new Map<ProvidedServices, React.Context<any | undefined>>();
 
 export const Contextualizer = {
+	//region CREATE
 	createContext: <T>(service: ProvidedServices): React.Context<T | undefined> => {
 		const context = React.createContext<T | undefined>(undefined);
 		contexts.set(service, context);
 		return context;
 	},
+	//endregion
 
+	//region USE
 	use: <T>(services: ProvidedServices): T => {
 		const context = contexts.get(services);
 		if(context === undefined) {
@@ -22,8 +25,11 @@ export const Contextualizer = {
 		}
 		return service;
 	},
+	//endregion
 
+	//region CLEAR
 	clear(){
 		contexts.clear();
 	},
+	//endregion
 };

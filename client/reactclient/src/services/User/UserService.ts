@@ -12,6 +12,7 @@ import {log} from '../../functions/util';
 
 export const UserService: IUserService = {
 
+	//region GET
 	getUser: async (id: string): Promise<IResponseMessage<IUser>> => {
 		return await api.Get<IUser>(`user/${id}`)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
@@ -41,7 +42,9 @@ export const UserService: IUserService = {
 				return setErrorResponseObject(err);
 			});
 	},
+	//endregion
 
+	//region POST
 	postUser: async (data: IUser): Promise<IResponseMessage<IUser>> => {
 		return await api.Post('user/', data)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
@@ -51,7 +54,9 @@ export const UserService: IUserService = {
 				return setErrorResponseObject(err);
 			});
 	},
+	//endregion
 
+	//region PUT
 	putUser: async (id: string, data: IUser): Promise<IResponseMessage<IUser>> => {
 		return await api.Put(`user/${id}`, data)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
@@ -61,7 +66,9 @@ export const UserService: IUserService = {
 				return setErrorResponseObject(err);
 			});
 	},
+	//endregion
 
+	//region DELETE
 	deleteUser: async (id?: string): Promise<IResponseMessage<boolean>> => {
 		return await api.Delete<boolean>(`user/${id}`)
 			.then((response: AxiosResponse<IResponseMessage<boolean>>) => {
@@ -71,4 +78,5 @@ export const UserService: IUserService = {
 				return err;
 			});
 	}
+	//endregion
 };

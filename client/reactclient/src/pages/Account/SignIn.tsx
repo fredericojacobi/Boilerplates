@@ -26,14 +26,16 @@ import {useNavigate} from 'react-router-dom';
 import {getPage,} from '../../routes/Pages';
 
 export default function SignIn(): JSX.Element {
-
+	//region consts
 	const authService = useAuthService();
 	const navigate = useNavigate();
 
 	const [errorMessage, setErrorMessage] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [loadingPercentage, setLoadingPercentage] = useState<number>(0);
+	//endregion
 
+	//region hooks
 	useEffect(() => {
 		if (authService.isLoggedIn()) {
 			navigate(`${getPage(Routes.Dashboard).path}`);
@@ -47,7 +49,9 @@ export default function SignIn(): JSX.Element {
 			}, 1800);
 		}
 	}, [loadingPercentage]);
+	//endregion
 
+	//region onFunctions
 	const onSubmit = async (data: IUser) => {
 		setLoading(true);
 		await authService.signIn(data)
@@ -58,7 +62,9 @@ export default function SignIn(): JSX.Element {
 			});
 		setLoading(false);
 	};
+	//endregion
 
+	//region validations
 	const validationSchema = Yup.object().shape({
 		username: Yup.string()
 			.required('Username is required')
@@ -79,6 +85,7 @@ export default function SignIn(): JSX.Element {
 	} = useForm({
 		resolver: yupResolver(validationSchema)
 	});
+	//endregion
 
 	return (
 		<Loading

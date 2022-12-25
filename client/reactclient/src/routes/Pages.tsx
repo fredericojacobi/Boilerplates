@@ -10,8 +10,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupIcon from '@mui/icons-material/Group';
 import Users from '../pages/Dashboard/Users/Users';
+import {Location} from 'react-router-dom';
 
-interface IPages {
+interface IPage {
 	type: Routes,
 	label: string,
 	path: string,
@@ -19,7 +20,8 @@ interface IPages {
 	element: JSX.Element
 }
 
-export const Pages: Array<IPages> = [
+//region pages
+export const Pages: Array<IPage> = [
 	{
 		type: Routes.Home,
 		label: 'Home',
@@ -59,7 +61,22 @@ export const Pages: Array<IPages> = [
 		icon: <GroupIcon/>,
 		element: <Layout dashboard={true} page={<Users/>}/>
 	},
-
 ];
+//endregion
 
-export const getPage = (type: Routes): IPages => Pages.find((item) => item.type === type) ?? Pages[0];
+//region functions
+export const getPublicPages = (): IPage[] => [Pages[0], Pages[1], Pages[2], Pages[3]];
+
+export const getPage = (type: Routes): IPage => Pages.find((item) => item.type === type) ?? Pages[0];
+
+export const getPageByPathname = (pathname: string): IPage => {
+	const paths = Pages.map((page:IPage) => page.path);
+	const pathnameIndex = paths.findIndex((item:string) => item === pathname);
+	return Pages[pathnameIndex];
+};
+
+export const isPublicPage = (location:Location): boolean => {
+	const currentPage = getPageByPathname(location.pathname);
+	return getPublicPages().includes(currentPage);
+};
+//endregion

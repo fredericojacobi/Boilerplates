@@ -5,16 +5,9 @@ import Axios, {
 import IResponseMessage from '../interfaces/models/IResponseMessage';
 import IUser from '../interfaces/models/IUser';
 import {log} from '../functions/util';
+import {getToken} from '../services/Auth/AuthService';
 
-const getToken = ():string => {
-	const userStorage = localStorage.getItem('user') ?? '';
-	if (userStorage !== '') {
-		const user: IUser = JSON.parse(userStorage);
-		return user.token ?? '';
-	}
-	return '';
-};
-
+//region axios instance config
 const api: AxiosInstance = Axios.create({
 	baseURL: 'https://localhost:7048/api/',
 	headers: {
@@ -22,7 +15,9 @@ const api: AxiosInstance = Axios.create({
 		'Authorization': `Bearer ${getToken()}`,
 	},
 });
+//endregion
 
+//region http methods
 function Get<T>(url: string): Promise<AxiosResponse<IResponseMessage<T>>> {
 	return api.get(url);
 }
@@ -38,6 +33,7 @@ function Put<T>(url: string, data: T): Promise<AxiosResponse<IResponseMessage<T>
 function Delete<T>(url: string): Promise<AxiosResponse<IResponseMessage<T>>> {
 	return api.delete(url);
 }
+//endregion
 
 export default {
 	Get,

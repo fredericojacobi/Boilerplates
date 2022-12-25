@@ -12,10 +12,12 @@ import {
 } from '@mui/x-data-grid';
 
 export default function Users(): JSX.Element {
-
+	//region consts
 	const [users, setUsers] = useState<Array<IUser>>();
 	const userService = useUserService();
+	//endregion
 
+	//region hooks
 	useEffect(() => {
 		const getUsers = async () => {
 			const data = await userService.getUsers();
@@ -25,22 +27,23 @@ export default function Users(): JSX.Element {
 
 		getUsers();
 	}, []);
+	//endregion
 
-	//region Table Columns
+	//region table
 	const columns: GridColDef[] = [
 		{
 			field: 'secondaryId',
 			headerName: 'ID',
 			type: 'number',
-			width: 90,
+			width: 85,
 			filterable: false,
 			hideable: false,
-			sortable: false,
 		},
 		{field: 'userName', headerName: 'Username', width: 180},
-		{field: 'email', headerName: 'Email', width: 250},
-		{field: 'createdAt', headerName: 'Created At', width: 155},
-		{field: 'modifiedAt', headerName: 'Modified At', width: 155},
+		{field: 'email', headerName: 'Email', width: 340},
+		{field: 'createdAt', headerName: 'Created At', width: 165, align: 'center'},
+		{field: 'modifiedAt', headerName: 'Modified At', width: 165, align: 'center'},
+		{field: 'paidUntil', headerName: 'Paid Until', width: 165, align: 'center'},
 
 	];
 	//endregion

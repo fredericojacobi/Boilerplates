@@ -22,9 +22,10 @@ interface IDashboardMenu {
 }
 
 export default function DashboardMenu(props: IDashboardMenu): JSX.Element {
+	//region consts
 	const navigate = useNavigate();
-
 	const tabs = [Pages[0], Pages[5]];
+	//endregion
 
 	return (
 		props.visible ?

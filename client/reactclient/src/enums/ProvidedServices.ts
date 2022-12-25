@@ -1,4 +1,4 @@
 export enum ProvidedServices {
-	UserService= 1,
-	AuthService= 2
+	UserService = 1,
+	AuthService = 2
 }

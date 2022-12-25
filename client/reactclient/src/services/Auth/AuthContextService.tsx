@@ -7,21 +7,27 @@ import IAuthService from '../../interfaces/services/IAuthService';
 
 export default function AuthContextService({children}: any): JSX.Element {
 	const authService: IAuthService = {
-		getCurrentUser(): IUser {
-			return AuthService.getCurrentUser();
-		},
-		signOut(): boolean {
-			return AuthService.signOut();
+
+		//region userActions
+		async signIn(data: IUser): Promise<IResponseMessage<IUser>> {
+			return await AuthService.signIn(data);
 		},
 		async signUp(data: IUser): Promise<IResponseMessage<IUser>> {
 			return await AuthService.signUp(data);
 		},
-		async signIn(data: IUser): Promise<IResponseMessage<IUser>> {
-			return await AuthService.signIn(data);
+		signOut(): boolean {
+			return AuthService.signOut();
+		},
+		//endregion
+
+		//region userInfos
+		getCurrentUser(): IUser {
+			return AuthService.getCurrentUser();
 		},
 		isLoggedIn(): boolean {
 			return AuthService.isLoggedIn();
 		}
+		//endregion
 	};
 
 	return (

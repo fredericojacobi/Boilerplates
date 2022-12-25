@@ -14,13 +14,16 @@ import {useAuthService} from '../../../hooks/useAuthService';
 import {getPage} from '../../../routes/Pages';
 
 export default function Header(): JSX.Element {
-
+	//region consts
 	const authService = useAuthService();
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+	//endregion
 
+	//region hooks
 	useEffect(() => {
 		setIsLoggedIn(authService.isLoggedIn());
 	}, []);
+	//endregion
 
 	return (
 		<header>

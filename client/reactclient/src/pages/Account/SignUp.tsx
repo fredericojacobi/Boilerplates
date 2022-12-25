@@ -24,12 +24,14 @@ import {Routes} from '../../enums/Routes';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 export default function SignUp(): JSX.Element {
-
+	//region consts
 	const authService = useAuthService();
 	const [errorMessage, setErrorMessage] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [loadingPercentage, setLoadingPercentage] = useState<number>(0);
+	//endregion
 
+	//region hooks
 	useEffect(() => {
 		if (loading) {
 			setTimeout(() => {
@@ -37,7 +39,9 @@ export default function SignUp(): JSX.Element {
 			}, 1800);
 		}
 	}, [loadingPercentage]);
+	//endregion
 
+	//region onFunctions
 	const onSubmit = async (data: IUser) => {
 		setLoading(true);
 		await authService.signUp(data)
@@ -48,7 +52,9 @@ export default function SignUp(): JSX.Element {
 			});
 		setLoading(false);
 	};
+	//endregion
 
+	//region validations
 	const validationSchema = Yup.object().shape({
 		email: Yup.string()
 			.required('Email invalid')
@@ -73,6 +79,7 @@ export default function SignUp(): JSX.Element {
 	} = useForm({
 		resolver: yupResolver(validationSchema)
 	});
+	//endregion
 
 	return (
 		<Loading
