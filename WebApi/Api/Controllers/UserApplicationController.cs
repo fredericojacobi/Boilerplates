@@ -25,10 +25,6 @@ public class UserApplicationController : ControllerBase
     public async Task<ActionResult> Get([FromRoute] Guid id) => await _service.UserApplication.GetAsync(id);
 
     [AllowAnonymous]
-    [HttpPost("signin")]
-    public async Task<ActionResult> SignIn([FromBody] UserApplicationLoginDto dto) => await _service.UserApplication.Authenticate(dto);
-
-    [AllowAnonymous]
     [HttpPost("signup")]
     public async Task<ActionResult> SignUp([FromBody] UserApplicationRegisterDto dto) => await _service.UserApplication.PostAsync(dto);
 

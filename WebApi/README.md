@@ -1,4 +1,4 @@
-﻿# React.js front-end boilerplate
+﻿# .NET back-end boilerplate
 ___
 <img src="http://img.shields.io/static/v1?label=C%23&message=LANGUAGE&color=blue&style=for-the-badge&logo=CSharp"/>
 <img src="https://img.shields.io/static/v1?label=.NET&message=framework&color=blue&style=for-the-badge&logo=.NET"/>

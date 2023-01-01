@@ -11,6 +11,7 @@ public class ServiceWrapper : IServiceWrapper
     
     private IUserApplicationService _userApplication;
     private ILoggerService _logger;
+    private IAuthenticationService _authentication;
     
     public ServiceWrapper(IRepositoryWrapper repository, IMapper mapper)
     {
@@ -20,4 +21,5 @@ public class ServiceWrapper : IServiceWrapper
 
     public IUserApplicationService UserApplication => _userApplication ??= new UserApplicationService(_logger ?? Logger, _repository, _mapper);
     public ILoggerService Logger => _logger ??= new LoggerService(_repository);
+    public IAuthenticationService Authentication => _authentication ??= new AuthenticationService(_logger ?? Logger, _repository);
 }
