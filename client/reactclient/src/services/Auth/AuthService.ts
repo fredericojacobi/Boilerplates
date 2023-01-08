@@ -13,7 +13,7 @@ export const AuthService: IAuthService = {
 
 	//region userActions
 	signIn: async (data: IUser): Promise<IResponseMessage<IUser>> => {
-		return await api.Post<IUser>('user/signin', data)
+		return await api.Post<IUser>('auth/signin', data)
 			.then((response: AxiosResponse<IResponseMessage<IUser>>) => {
 				if (response.data.records[0]?.token) {
 					localStorage.setItem('user', JSON.stringify(response.data.records[0]));

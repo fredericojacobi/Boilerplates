@@ -21,8 +21,7 @@ export default function Users(): JSX.Element {
 	useEffect(() => {
 		const getUsers = async () => {
 			const data = await userService.getUsers();
-			log(data.records[0].records);
-			setUsers(data.records[0].records);
+			setUsers(data.records[0]?.records);
 		};
 
 		getUsers();

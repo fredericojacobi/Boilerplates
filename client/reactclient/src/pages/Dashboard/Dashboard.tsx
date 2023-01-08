@@ -5,7 +5,9 @@ import Box from '@mui/material/Box';
 export default function Dashboard(): JSX.Element {
 
 	return (
-		<Box className={styles.content}>
+		<Box
+			className={styles.content}
+		>
 			Dashboard page
 		</Box>
 	);

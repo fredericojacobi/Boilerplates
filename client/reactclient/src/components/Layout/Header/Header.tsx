@@ -1,7 +1,4 @@
-import React, {
-	useEffect,
-	useState
-} from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,20 +7,14 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Link from '../../Link/Link';
 import styles from './Header.module.scss';
 import {Routes} from '../../../enums/Routes';
-import {useAuthService} from '../../../hooks/useAuthService';
 import {getPage} from '../../../routes/Pages';
+import {log} from '../../../functions/util';
 
-export default function Header(): JSX.Element {
-	//region consts
-	const authService = useAuthService();
-	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-	//endregion
+interface IHeaderProps {
+	isLoggedIn: boolean
+}
 
-	//region hooks
-	useEffect(() => {
-		setIsLoggedIn(authService.isLoggedIn());
-	}, []);
-	//endregion
+export default function Header(props: IHeaderProps): JSX.Element {
 
 	return (
 		<header>
@@ -34,7 +25,7 @@ export default function Header(): JSX.Element {
 							<AdbIcon sx={{display: 'flex', mr: 1}}/>
 						</Container>
 						<Box sx={{flexGrow: 0}}>
-							{isLoggedIn ? <Link route={Routes.Dashboard}>My Account</Link> : <Link route={Routes.SignIn}>{getPage(Routes.SignIn).label}</Link>}
+							{props.isLoggedIn ? <Link route={Routes.Dashboard}>My Account</Link> : <Link route={Routes.SignIn}>{getPage(Routes.SignIn).label}</Link>}
 						</Box>
 					</Toolbar>
 				</Container>

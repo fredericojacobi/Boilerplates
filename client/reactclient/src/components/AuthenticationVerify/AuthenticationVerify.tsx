@@ -8,7 +8,6 @@ import {
 import {useAuthService} from '../../hooks/useAuthService';
 import {
 	log,
-	parseJwt
 } from '../../functions/util';
 import {
 	getPage,
@@ -34,9 +33,7 @@ export default function AuthenticationVerify(props: IAuthenticationVerifyProps):
 }
 
 const handleAuthentication = (navigate: NavigateFunction, authService: IAuthService, location: Location) => {
-	if(isPublicPage(location))
-		return;
-	if (authService.isLoggedIn())
+	if(isPublicPage(location) || authService.isLoggedIn())
 		return;
 	else
 		navigate(getPage(Routes.Home).path);

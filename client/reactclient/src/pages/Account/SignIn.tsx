@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import Link from '../../components/Link/Link';
 import {useAuthService} from '../../hooks/useAuthService';
-import {log} from '../../functions/util';
 import Loading from '../../components/Loading/Loading';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import * as Yup from 'yup';
@@ -23,7 +22,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Routes} from '../../enums/Routes';
 import useUpdateEffect from '../../hooks/useUpdateEffect';
 import {useNavigate} from 'react-router-dom';
-import {getPage,} from '../../routes/Pages';
+import {getPage} from '../../routes/Pages';
+import {log} from '../../functions/util';
 
 export default function SignIn(): JSX.Element {
 	//region consts
@@ -56,11 +56,11 @@ export default function SignIn(): JSX.Element {
 		setLoading(true);
 		await authService.signIn(data)
 			.then((response: IResponseMessage<IUser>) => {
-				if (response.error) {
-					setErrorMessage(response.message);
-				}
+				setLoading(false);
+				response.error
+					? setErrorMessage(response.message)
+					: navigate(getPage(Routes.Dashboard).path);
 			});
-		setLoading(false);
 	};
 	//endregion
 
