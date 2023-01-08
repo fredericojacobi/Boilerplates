@@ -15,11 +15,11 @@ namespace Services;
 public class AuthenticationService : IAuthenticationService
 {
     private readonly IRepositoryWrapper _repository;
-    private readonly ILoggerService _loggerService;
+    private readonly IServiceWrapper _service;
     
-    public AuthenticationService(ILoggerService loggerService, IRepositoryWrapper repository)
+    public AuthenticationService(IServiceWrapper service, IRepositoryWrapper repository)
     {
-        _loggerService = loggerService;
+        _service = service;
         _repository = repository;
     }
     
@@ -41,17 +41,17 @@ public class AuthenticationService : IAuthenticationService
                     UserName = user.UserName
                 };
 
-                await _loggerService.LogAsync($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Success, user.Id);
+                await _service.Logger.LogAsync($"Authentication token generated. Token: {tokenDto.Token} {JsonSerializer.Serialize(user)}", LogType.Success, user.Id);
                 return responseMessage.Ok(tokenDto);
             }
 
-            await _loggerService.LogAsync($"Authentication failed. Wrong username or password.", LogType.Error, user.Id);
+            await _service.Logger.LogAsync($"Authentication failed. Wrong username or password.", LogType.Error, user.Id);
 
             return responseMessage.Unauthorized("Wrong username or password.");
         }
         catch (Exception ex)
         {
-            await _loggerService.LogAsync($"Authentication failed. Exception message: {ex.Message}", LogType.Error);
+            await _service.Logger.LogAsync($"Authentication failed. Exception message: {ex.Message}", LogType.Error);
             return responseMessage.InternalServerError(ex);
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Contracts.Repositories;
 using Entities.Models;
+using Generics.Extensions;
 using Generics.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +12,16 @@ public class UserApplicationRepository : IUserApplicationRepository
 {
     private readonly UserManager<UserApplication> _userManager;
 
-    public UserApplicationRepository(UserManager<UserApplication> userManager) => _userManager = userManager;
+    public UserApplication? CurrentUser { get; }
 
+    public UserApplicationRepository(UserManager<UserApplication> userManager, IHttpContextAccessor httpContextAccessor)
+    {
+        _userManager = userManager;
+
+        var currentUserId = httpContextAccessor.HttpContext?.User.Claims.Select(x => x.Value).FirstOrDefault();
+        CurrentUser = ReadUserByIdAsync(currentUserId.ToGuid()).Result; 
+    }
+    
     public async Task<bool> ValidatePassword(UserApplication user, string password) => await _userManager.CheckPasswordAsync(user, password);
 
     public async Task<IEnumerable<UserApplication>> ReadAllUsersAsync() => await _userManager.Users.ToListAsync();

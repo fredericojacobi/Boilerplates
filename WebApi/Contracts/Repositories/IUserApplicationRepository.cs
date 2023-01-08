@@ -6,6 +6,7 @@ namespace Contracts.Repositories;
 
 public interface IUserApplicationRepository
 {
+    UserApplication? CurrentUser { get; }
     Task<bool> ValidatePassword(UserApplication user, string password);
     Task<IEnumerable<UserApplication>> ReadAllUsersAsync();
     Task<Pagination<UserApplication>> ReadAllUsersPaginatedAsync(int page, int limit);

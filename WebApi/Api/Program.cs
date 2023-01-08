@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
 
 Console.WriteLine(" ... Starting application ...");
-Console.WriteLine(" ... Waiting 15s ...");
-Thread.Sleep(15000);
-Console.WriteLine(" ... Continue ...");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +12,7 @@ builder.Services.ConfigureServices(builder.Configuration);
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    Console.WriteLine(" ... Database connection ...");
+    Console.WriteLine(" ... Database connecting ...");
     
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.EnsureCreated();

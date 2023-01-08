@@ -29,6 +29,7 @@ public static class ServiceConfiguration
         services.ConfigureSwagger();
         services.ConfigureCors();
         services.ConfigureMapper();
+        services.AddHttpContextAccessor();
         // services.ConfigureCookies();
     }
 
