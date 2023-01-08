@@ -19,6 +19,9 @@ ___
 - [x] Providing services with Context API
 - [ ] Permissions
   - [x] JWT Authentication
+- [ ] Docker
+  - [x] Setup docker image
+  - [ ] Setup docker compose
 - [ ] Dashboard
 - [ ] Documentation
 
