@@ -1,6 +1,6 @@
 import IUser from '../models/IUser';
 import IResponseMessage from '../models/IResponseMessage';
-import {IPagination} from '../models/IPagination';
+import IPagination from '../models/IPagination';
 
 export default interface IUserService {
 	getUser(id: string): Promise<IResponseMessage<IUser>>,
