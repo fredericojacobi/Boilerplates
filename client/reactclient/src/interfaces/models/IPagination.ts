@@ -1,4 +1,4 @@
-export interface IPagination<T> {
+export default interface IPagination<T> {
 	records: Array<T>,
 	pageSize: number,
 	currentPage: number,

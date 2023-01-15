@@ -7,7 +7,7 @@ import {
 	setErrorResponseObject,
 	setErrorResponsePaginationObject
 } from '../../functions/Request';
-import {IPagination} from '../../interfaces/models/IPagination';
+import IPagination from '../../interfaces/models/IPagination';
 import {log} from '../../functions/util';
 
 export const UserService: IUserService = {
