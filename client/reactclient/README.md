@@ -1,4 +1,4 @@
-# React Ts Front-End App
+# React.js front-end boilerplate
 ___
 <img src="http://img.shields.io/static/v1?label=TYPESCRIPT&message=LANGUAGE&color=blue&style=for-the-badge&logo=TYPESCRIPT"/>
 <img src="https://img.shields.io/static/v1?label=react&message=framework&color=blue&style=for-the-badge&logo=REACT"/>
@@ -7,7 +7,7 @@ ___
 
 ## 📄 Introduction
 ___
-
+This project is focused to provide an initial boilerplate for client-side React.js applications, avoiding spending too much time at the beginning.
 
 ## 🚀 Features
 ___
@@ -16,10 +16,21 @@ ___
 
 ## 🎯 Roadmap
 ___
-- [ ] 
+- [x] Providing services with Context API
+- [ ] Permissions
+  - [x] JWT Authentication
+- [ ] Docker
+  - [x] Setup docker image
+  - [ ] Setup docker compose
+- [ ] Dashboard
+- [ ] Documentation
 
 ## 📖 References
 ___
+- <a href="https://dev.to/dansolhan/simple-dependency-injection-functionality-for-react-518j">Dependency Injection/Services pattern for React (inspired by Angular)</a>
+- <a href="https://www.bezkoder.com/react-hooks-jwt-auth/">React Hooks: JWT Authentication (without Redux) example</a>
+- <a href="https://javascript.plainenglish.io/12-important-javascript-functions-every-web-developer-should-know-e488c4bbf521">12 Important JavaScript Functions Every Web Developer Should Know</a>
+- <a href="https://javascript.plainenglish.io/12-common-javascript-functions-you-need-to-know-3d3a3ab712fc">12 Common JavaScript Functions You Need to Know</a>
 
 ## 💻 Developers
 ___

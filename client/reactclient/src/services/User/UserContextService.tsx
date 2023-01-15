@@ -1,9 +1,10 @@
+import React from 'react';
 import IUser from '../../interfaces/models/IUser';
 import {UserServiceContext} from '../../contexts/UserServiceContext';
 import {UserService} from './UserService';
 import IResponseMessage from '../../interfaces/models/IResponseMessage';
 import IUserService from '../../interfaces/services/IUserService';
-import IPagination from '../../interfaces/models/IPagination';
+import {IPagination} from '../../interfaces/models/IPagination';
 
 export default function UserContextService({children}: any): JSX.Element {
 	const userService: IUserService = {

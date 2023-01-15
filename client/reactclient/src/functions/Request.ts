@@ -3,9 +3,9 @@ import IUser from '../interfaces/models/IUser';
 import axios, {AxiosError} from 'axios';
 import {log} from './util';
 import {parseResponseMessage} from './ResponseMessage';
-import IPagination from '../interfaces/models/IPagination';
+import {IPagination} from '../interfaces/models/IPagination';
 
-export const setErrorResponseObject = <T>(err: IResponseMessage<T>): IResponseMessage<T> => {
+export const setErrorResponseObject = (err: IResponseMessage<IUser>): IResponseMessage<IUser> => {
 	if (axios.isAxiosError(err)) {
 		if (err.code === 'ERR_NETWORK') {
 			return {
@@ -22,7 +22,7 @@ export const setErrorResponseObject = <T>(err: IResponseMessage<T>): IResponseMe
 	return err;
 };
 
-export const setErrorResponsePaginationObject = <T>(err: IResponseMessage<IPagination<T>>): IResponseMessage<IPagination<T>> => {
+export const setErrorResponsePaginationObject = (err: IResponseMessage<IPagination<IUser>>): IResponseMessage<IPagination<IUser>> => {
 	if (axios.isAxiosError(err)) {
 		if (err.code === 'ERR_NETWORK') {
 			return {
