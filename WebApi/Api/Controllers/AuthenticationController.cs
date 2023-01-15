@@ -16,17 +16,6 @@ namespace Api.Controllers
         [AllowAnonymous]
         [HttpPost("signin")]
         public async Task<ActionResult> SignIn([FromBody] AuthenticationDto dto) => await _service.Authentication.Authenticate(dto);
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPost]
-        public async Task<ActionResult> Post() => Ok();
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut]
-        public async Task<ActionResult> Put() => Ok();
-
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpDelete]
-        public async Task<ActionResult> Delete() => Ok();
+        
     }
 }

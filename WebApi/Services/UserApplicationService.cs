@@ -30,7 +30,7 @@ public class UserApplicationService : IUserApplicationService
     
     public async Task<ActionResult> GetAllAsync(int page, int limit)
     {
-        await _service.Logger.LogAsync("test message", LogType.Success, CurrentUser?.Id);
+        await _service.Logger.LogAsync("Current user requested GetAllAsync", LogType.Success, CurrentUser?.Id);
         return page > 0 && limit > 0 ? await GetAllPaginatedAsync(page, limit) : await GetAllAsync();
     }
 
