@@ -12,19 +12,33 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import styles from './DashboardMenu.module.scss';
 import {
+	getPage,
+	IPage,
 	Pages
 } from '../../../routes/Pages';
 import {randomAlphaNumericId} from '../../../functions/util';
 import {useNavigate} from 'react-router-dom';
+import {useAuthService} from '../../../hooks/useAuthService';
+import {Logout} from '@mui/icons-material';
+import {Routes} from '../../../enums/Routes';
 
 interface IDashboardMenu {
 	visible: boolean;
 }
 
+
 export default function DashboardMenu(props: IDashboardMenu): JSX.Element {
 	//region consts
 	const navigate = useNavigate();
-	const tabs = [Pages[0], Pages[5]];
+	const authService = useAuthService();
+	const tabs: Array<IPage> = [Pages[0], Pages[5]];
+	//endregion
+
+	//region handles
+	const handleSignOut = () => {
+		if(authService.signOut())
+			navigate(getPage(Routes.Home).path);
+	};
 	//endregion
 
 	return (
@@ -63,6 +77,21 @@ export default function DashboardMenu(props: IDashboardMenu): JSX.Element {
 								</ListItem>
 							);
 						})}
+						<ListItem
+							key={randomAlphaNumericId(3)}
+							component="div"
+							onClick={() => handleSignOut()}
+							disablePadding
+						>
+							<ListItemButton sx={{height: 56}}>
+								<ListItemIcon>
+									<Logout/>
+								</ListItemIcon>
+								<ListItemText>
+									Sign out
+								</ListItemText>
+							</ListItemButton>
+						</ListItem>
 					</List>
 				</Paper>
 			</Box>

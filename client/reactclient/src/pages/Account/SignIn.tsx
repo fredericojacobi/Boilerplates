@@ -43,24 +43,31 @@ export default function SignIn(): JSX.Element {
 	}, []);
 
 	useUpdateEffect(() => {
-		if (loading) {
+		if (loading && loadingPercentage < 100) {
 			setTimeout(() => {
 				setLoadingPercentage(loadingPercentage + 1);
-			}, 1800);
+			}, 95);
 		}
 	}, [loadingPercentage]);
 	//endregion
 
 	//region onFunctions
 	const onSubmit = async (data: IUser) => {
+		setLoadingPercentage(1);
 		setLoading(true);
-		await authService.signIn(data)
-			.then((response: IResponseMessage<IUser>) => {
-				setLoading(false);
-				response.error
-					? setErrorMessage(response.message)
-					: navigate(getPage(Routes.Dashboard).path);
-			});
+		setTimeout(async () => {
+			setTimeout(async () => {
+				setTimeout(async () => {
+					await authService.signIn(data)
+						.then((response: IResponseMessage<IUser>) => {
+							response.error
+								? setErrorMessage(response.message)
+								: navigate(getPage(Routes.Dashboard).path);
+							setLoading(false);
+						});
+				}, 600);
+			}, 1000);
+		}, 400);
 	};
 	//endregion
 

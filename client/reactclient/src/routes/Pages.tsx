@@ -12,7 +12,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import Users from '../pages/Dashboard/Users/Users';
 import {Location} from 'react-router-dom';
 
-interface IPage {
+export interface IPage {
 	type: Routes,
 	label: string,
 	path: string,
